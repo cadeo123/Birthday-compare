@@ -8,17 +8,15 @@
 <style>
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: -apple-system, sans-serif;
   background: linear-gradient(135deg, #0a0a0a, #111);
   color: white;
   padding: 20px;
 }
-
 .container {
   max-width: 500px;
   margin: auto;
 }
-
 .card {
   background: rgba(255,255,255,0.05);
   backdrop-filter: blur(12px);
@@ -27,17 +25,6 @@ body {
   margin-bottom: 15px;
   border: 1px solid rgba(255,255,255,0.1);
 }
-
-h1 {
-  margin: 0;
-  font-size: 26px;
-}
-
-.subtitle {
-  opacity: 0.7;
-  margin-top: 5px;
-}
-
 input, select {
   width: 100%;
   padding: 14px;
@@ -46,9 +33,7 @@ input, select {
   border: none;
   background: #111;
   color: white;
-  font-size: 15px;
 }
-
 button {
   width: 100%;
   padding: 15px;
@@ -56,11 +41,9 @@ button {
   border-radius: 14px;
   border: none;
   font-weight: bold;
-  font-size: 16px;
   background: linear-gradient(90deg, #ff4d6d, #c77dff);
   color: white;
 }
-
 .score {
   font-size: 48px;
   font-weight: bold;
@@ -68,29 +51,10 @@ button {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
-
-.label {
-  opacity: 0.7;
-}
-
-.section {
-  margin-top: 15px;
-}
-
-ul {
-  padding-left: 18px;
-}
-
-.quote {
-  margin-top: 15px;
-  font-style: italic;
-  opacity: 0.9;
-}
-
-.name {
-  font-size: 22px;
-  font-weight: bold;
-}
+.name { font-size: 22px; font-weight: bold; }
+.label { opacity: 0.7; }
+.section { margin-top: 15px; }
+.quote { margin-top: 15px; font-style: italic; }
 </style>
 </head>
 
@@ -99,12 +63,11 @@ ul {
 <div class="container">
 
 <div class="card">
-<h1>Birthday Compare</h1>
-<div class="subtitle">Find your real compatibility</div>
+<h2>Birthday Compare</h2>
+<p>Find your real compatibility</p>
 </div>
 
 <div class="card">
-
 <input id="name1" placeholder="Name 1">
 <input id="dob1" type="date">
 
@@ -118,7 +81,6 @@ ul {
 </select>
 
 <button onclick="compare()">Compare</button>
-
 </div>
 
 <div id="result" class="card" style="display:none;"></div>
@@ -127,8 +89,7 @@ ul {
 
 <script>
 
-// ===== DATA =====
-
+// ===== SIGNS =====
 const signs = [
 { name:'Capricorn', start:[12,22], end:[1,19], element:'Earth' },
 { name:'Aquarius', start:[1,20], end:[2,18], element:'Air' },
@@ -144,44 +105,43 @@ const signs = [
 { name:'Sagittarius', start:[11,22], end:[12,21], element:'Fire' }
 ];
 
+// ===== BIRTHSTONES =====
 const stones = {
 1:'Garnet',2:'Amethyst',3:'Aquamarine',4:'Diamond',
 5:'Emerald',6:'Pearl',7:'Ruby',8:'Peridot',
 9:'Sapphire',10:'Opal',11:'Topaz',12:'Turquoise'
 };
 
-const summaries = [
-"This connection has strong potential when both people understand each other.",
-"There is a strong pull here, but it needs effort to grow.",
-"This pairing can feel natural but still requires communication.",
-"This connection can either grow strong or fade depending on effort."
-];
+// ===== SPECIAL MATCHES =====
+const special = {
+"Cancer-Pisces": {
+score: 90,
+summary: "This is one of those rare emotional connections where both people just understand each other naturally.",
+quote: "You don’t have to explain your feelings here — they’re already felt."
+},
+"Pisces-Cancer": {
+score: 90,
+summary: "A deeply intuitive bond that feels safe, emotional, and naturally aligned.",
+quote: "This feels like comfort, connection, and something hard to replace."
+},
+"Leo-Aries": {
+score: 88,
+summary: "High energy, strong attraction, and a powerful dynamic when both respect each other.",
+quote: "Fire meets fire — intense, exciting, but never boring."
+},
+"Taurus-Virgo": {
+score: 85,
+summary: "A grounded, stable connection with strong long-term potential.",
+quote: "This works because both of you value consistency and loyalty."
+},
+"Scorpio-Cancer": {
+score: 92,
+summary: "An intense emotional bond with deep loyalty and strong attachment.",
+quote: "This connection runs deep — not surface level."
+}
+};
 
-const quotes = [
-"You feel like home, but only if both of you communicate.",
-"High chemistry. Medium stability.",
-"Soft connection, strong pull.",
-"This match works when no one tries to control the other."
-];
-
-const strengthsList = [
-"Natural connection",
-"Strong emotional understanding",
-"Good communication potential",
-"Balanced energy",
-"Mutual attraction"
-];
-
-const challengesList = [
-"Different emotional needs",
-"Communication gaps",
-"Timing differences",
-"Overthinking",
-"Need for reassurance"
-];
-
-// ===== FUNCTIONS =====
-
+// ===== HELPERS =====
 function getSign(date){
 let d = new Date(date);
 let m = d.getMonth()+1;
@@ -219,7 +179,6 @@ return "❌ Low Compatibility";
 }
 
 // ===== MAIN =====
-
 function compare(){
 
 let n1 = document.getElementById("name1").value || "Person 1";
@@ -227,51 +186,60 @@ let n2 = document.getElementById("name2").value || "Person 2";
 
 let d1 = document.getElementById("dob1").value;
 let d2 = document.getElementById("dob2").value;
-let mode = document.getElementById("mode").value;
 
-// VALIDATION
 if(!d1 || !d2){
-alert("Please enter both birthdays");
+alert("Enter both birthdays");
 return;
 }
 
 let s1 = getSign(d1);
 let s2 = getSign(d2);
 
-let lp1 = lifePath(d1);
-let lp2 = lifePath(d2);
+let key = `${s1.name}-${s2.name}`;
+let result;
 
-// SCORE LOGIC
+// ===== SPECIAL LOGIC =====
+if(special[key]){
+result = special[key];
+}else{
+
 let score = 60;
 
 if(s1.element === s2.element) score += 15;
-if(s1.name === s2.name) score += 10;
 
 if((s1.element=="Water" && s2.element=="Earth") ||
    (s1.element=="Earth" && s2.element=="Water") ||
    (s1.element=="Fire" && s2.element=="Air") ||
    (s1.element=="Air" && s2.element=="Fire")) score += 10;
 
-if(lp1===lp2) score+=5;
+let summaries = [
+"This connection has potential, but depends on communication.",
+"There’s attraction here, but also differences to manage.",
+"This can work well with effort from both sides."
+];
 
-if(mode==="friend") score+=5;
-if(mode==="business" && (s1.element=="Earth"||s2.element=="Earth")) score+=5;
+let quotes = [
+"Some connections grow stronger over time.",
+"This works when both people meet in the middle.",
+"Potential is here — consistency decides the outcome."
+];
 
-// RANDOM CONTENT
-let summary = summaries[Math.floor(Math.random()*summaries.length)];
-let quote = quotes[Math.floor(Math.random()*quotes.length)];
+result = {
+score: score,
+summary: summaries[Math.floor(Math.random()*summaries.length)],
+quote: quotes[Math.floor(Math.random()*quotes.length)]
+};
 
-let strengths = strengthsList.slice(0,3);
-let challenges = challengesList.slice(0,3);
+}
 
-// OUTPUT
+// ===== OUTPUT =====
 document.getElementById("result").style.display="block";
 
 document.getElementById("result").innerHTML = `
 <div class="name">${n1} ❤️ ${n2}</div>
 
-<div class="score">${score}%</div>
-<div class="label">${label(score)}</div>
+<div class="score">${result.score}%</div>
+<div class="label">${label(result.score)}</div>
 
 <div class="section">
 ${s1.name} + ${s2.name}
@@ -282,21 +250,11 @@ ${stones[new Date(d1).getMonth()+1]} • ${stones[new Date(d2).getMonth()+1]}
 </div>
 
 <div class="section">
-<b>${summary}</b>
-</div>
-
-<div class="section">
-<h3>Strengths</h3>
-<ul>${strengths.map(s=>`<li>${s}</li>`).join("")}</ul>
-</div>
-
-<div class="section">
-<h3>Challenges</h3>
-<ul>${challenges.map(c=>`<li>${c}</li>`).join("")}</ul>
+<b>${result.summary}</b>
 </div>
 
 <div class="quote">
-"${quote}"
+"${result.quote}"
 </div>
 `;
 
