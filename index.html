@@ -85,11 +85,15 @@ button {
 
 <div id="result" class="card" style="display:none;"></div>
 
+<button id="shareBtn" style="display:none;" onclick="shareResult()">
+📤 Share Result
+</button>
+
 </div>
 
 <script>
 
-// ===== SIGNS =====
+// ===== DATA =====
 const signs = [
 { name:'Capricorn', start:[12,22], end:[1,19], element:'Earth' },
 { name:'Aquarius', start:[1,20], end:[2,18], element:'Air' },
@@ -105,14 +109,12 @@ const signs = [
 { name:'Sagittarius', start:[11,22], end:[12,21], element:'Fire' }
 ];
 
-// ===== BIRTHSTONES =====
 const stones = {
 1:'Garnet',2:'Amethyst',3:'Aquamarine',4:'Diamond',
 5:'Emerald',6:'Pearl',7:'Ruby',8:'Peridot',
 9:'Sapphire',10:'Opal',11:'Topaz',12:'Turquoise'
 };
 
-// ===== SPECIAL MATCHES =====
 const special = {
 "Cancer-Pisces": {
 score: 90,
@@ -121,27 +123,28 @@ quote: "You don’t have to explain your feelings here — they’re already fel
 },
 "Pisces-Cancer": {
 score: 90,
-summary: "A deeply intuitive bond that feels safe, emotional, and naturally aligned.",
+summary: "A deeply intuitive bond that feels safe and naturally aligned.",
 quote: "This feels like comfort, connection, and something hard to replace."
 },
 "Leo-Aries": {
 score: 88,
-summary: "High energy, strong attraction, and a powerful dynamic when both respect each other.",
-quote: "Fire meets fire — intense, exciting, but never boring."
+summary: "High energy, strong attraction, and a powerful dynamic.",
+quote: "Fire meets fire — intense, exciting, never boring."
 },
 "Taurus-Virgo": {
 score: 85,
-summary: "A grounded, stable connection with strong long-term potential.",
-quote: "This works because both of you value consistency and loyalty."
+summary: "A grounded and stable connection with strong long-term potential.",
+quote: "This works because both value consistency and loyalty."
 },
 "Scorpio-Cancer": {
 score: 92,
-summary: "An intense emotional bond with deep loyalty and strong attachment.",
+summary: "An intense emotional bond with deep loyalty.",
 quote: "This connection runs deep — not surface level."
 }
 };
 
-// ===== HELPERS =====
+// ===== FUNCTIONS =====
+
 function getSign(date){
 let d = new Date(date);
 let m = d.getMonth()+1;
@@ -160,15 +163,6 @@ return s;
 }
 }
 
-function lifePath(date){
-let nums = date.replace(/-/g,'').split('').map(Number);
-let total = nums.reduce((a,b)=>a+b,0);
-while(total>9 && total!=11 && total!=22){
-total = total.toString().split('').map(Number).reduce((a,b)=>a+b,0);
-}
-return total;
-}
-
 function label(score){
 if(score>=90) return "🔥 Rare Match";
 if(score>=80) return "💖 Strong Match";
@@ -179,6 +173,7 @@ return "❌ Low Compatibility";
 }
 
 // ===== MAIN =====
+
 function compare(){
 
 let n1 = document.getElementById("name1").value || "Person 1";
@@ -198,7 +193,6 @@ let s2 = getSign(d2);
 let key = `${s1.name}-${s2.name}`;
 let result;
 
-// ===== SPECIAL LOGIC =====
 if(special[key]){
 result = special[key];
 }else{
@@ -257,6 +251,27 @@ ${stones[new Date(d1).getMonth()+1]} • ${stones[new Date(d2).getMonth()+1]}
 "${result.quote}"
 </div>
 `;
+
+document.getElementById("shareBtn").style.display = "block";
+
+}
+
+// ===== SHARE =====
+
+function shareResult(){
+
+let text = document.getElementById("result").innerText + "\n\nTry yours 👀\n" + window.location.href;
+
+if(navigator.share){
+  navigator.share({
+    title: "Compatibility Result",
+    text: text,
+    url: window.location.href
+  });
+}else{
+  navigator.clipboard.writeText(text);
+  alert("Copied to clipboard!");
+}
 
 }
 
