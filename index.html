@@ -1,463 +1,308 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Birthday Compare MVP</title>
-  <style>
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #0a0a0a;
-      color: #ffffff;
-      padding: 20px;
-    }
-    .app {
-      max-width: 920px;
-      margin: 0 auto;
-    }
-    .card {
-      background: #151515;
-      border: 1px solid #2b2b2b;
-      border-radius: 18px;
-      padding: 18px;
-      margin-bottom: 16px;
-    }
-    h1, h2, h3, p { margin-top: 0; }
-    .muted { color: #b3b3b3; }
-    .grid {
-      display: grid;
-      gap: 12px;
-    }
-    .grid-2 {
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    }
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-      gap: 12px;
-      margin-top: 12px;
-    }
-    .stat {
-      background: #101010;
-      border: 1px solid #2b2b2b;
-      border-radius: 14px;
-      padding: 14px;
-    }
-    .stat-label {
-      font-size: 12px;
-      text-transform: uppercase;
-      color: #999;
-      letter-spacing: 0.08em;
-      margin-bottom: 8px;
-    }
-    .stat-value {
-      font-size: 20px;
-      font-weight: bold;
-    }
-    label {
-      display: block;
-      font-size: 14px;
-      margin-bottom: 6px;
-      color: #d0d0d0;
-    }
-    input, select, button {
-      width: 100%;
-      padding: 12px;
-      border-radius: 12px;
-      border: 1px solid #333;
-      background: #0f0f0f;
-      color: #fff;
-      font-size: 16px;
-    }
-    button {
-      background: #ffffff;
-      color: #000000;
-      font-weight: bold;
-      cursor: pointer;
-      border: none;
-    }
-    button:hover { opacity: 0.92; }
-    .pill {
-      display: inline-block;
-      padding: 8px 12px;
-      background: #222;
-      border: 1px solid #333;
-      border-radius: 999px;
-      margin: 4px 6px 0 0;
-      font-size: 14px;
-    }
-    .score {
-      font-size: 52px;
-      font-weight: 700;
-      margin: 10px 0 6px;
-    }
-    ul {
-      padding-left: 18px;
-      margin: 0;
-    }
-    li { margin-bottom: 8px; }
-    .quote {
-      font-size: 22px;
-      line-height: 1.5;
-    }
-    .section-title {
-      margin-bottom: 10px;
-    }
-    .row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-    }
-    @media (max-width: 700px) {
-      .row {
-        grid-template-columns: 1fr;
-      }
-      .score {
-        font-size: 42px;
-      }
-      .quote {
-        font-size: 20px;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Birthday Compare</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  background: linear-gradient(135deg, #0a0a0a, #111);
+  color: white;
+  padding: 20px;
+}
+
+.container {
+  max-width: 500px;
+  margin: auto;
+}
+
+.card {
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(12px);
+  border-radius: 20px;
+  padding: 18px;
+  margin-bottom: 15px;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+h1 {
+  margin: 0;
+  font-size: 26px;
+}
+
+.subtitle {
+  opacity: 0.7;
+  margin-top: 5px;
+}
+
+input, select {
+  width: 100%;
+  padding: 14px;
+  margin-top: 10px;
+  border-radius: 14px;
+  border: none;
+  background: #111;
+  color: white;
+  font-size: 15px;
+}
+
+button {
+  width: 100%;
+  padding: 15px;
+  margin-top: 15px;
+  border-radius: 14px;
+  border: none;
+  font-weight: bold;
+  font-size: 16px;
+  background: linear-gradient(90deg, #ff4d6d, #c77dff);
+  color: white;
+}
+
+.score {
+  font-size: 48px;
+  font-weight: bold;
+  background: linear-gradient(90deg, #ff4d6d, #c77dff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.label {
+  opacity: 0.7;
+}
+
+.section {
+  margin-top: 15px;
+}
+
+ul {
+  padding-left: 18px;
+}
+
+.quote {
+  margin-top: 15px;
+  font-style: italic;
+  opacity: 0.9;
+}
+
+.name {
+  font-size: 22px;
+  font-weight: bold;
+}
+</style>
 </head>
+
 <body>
-  <div class="app">
-    <div class="card">
-      <h1>Birthday Compare MVP</h1>
-      <p class="muted">Enter two birthdays to compare zodiac signs, life paths, birthstones, strengths, challenges, and overall compatibility.</p>
-    </div>
 
-    <div class="card">
-      <div class="grid grid-2">
-        <div>
-          <label for="name1">Person 1 Name</label>
-          <input id="name1" value="Amanda" />
-        </div>
-        <div>
-          <label for="dob1">Person 1 Birthday</label>
-          <input id="dob1" type="date" value="1996-07-10" />
-        </div>
-        <div>
-          <label for="name2">Person 2 Name</label>
-          <input id="name2" value="You" />
-        </div>
-        <div>
-          <label for="dob2">Person 2 Birthday</label>
-          <input id="dob2" type="date" value="1994-03-02" />
-        </div>
-        <div>
-          <label for="mode">Compare Mode</label>
-          <select id="mode">
-            <option value="relationship">Relationship</option>
-            <option value="friendship">Friendship</option>
-            <option value="business">Business</option>
-          </select>
-        </div>
-      </div>
-      <div style="margin-top:16px;">
-        <button onclick="comparePeople()">Compare Now</button>
-      </div>
-    </div>
+<div class="container">
 
-    <div id="results" class="card" style="display:none;"></div>
-  </div>
+<div class="card">
+<h1>Birthday Compare</h1>
+<div class="subtitle">Find your real compatibility</div>
+</div>
 
-  <script>
-    const signs = [
-      { name: 'Capricorn', start: [12, 22], end: [1, 19], element: 'Earth' },
-      { name: 'Aquarius', start: [1, 20], end: [2, 18], element: 'Air' },
-      { name: 'Pisces', start: [2, 19], end: [3, 20], element: 'Water' },
-      { name: 'Aries', start: [3, 21], end: [4, 19], element: 'Fire' },
-      { name: 'Taurus', start: [4, 20], end: [5, 20], element: 'Earth' },
-      { name: 'Gemini', start: [5, 21], end: [6, 20], element: 'Air' },
-      { name: 'Cancer', start: [6, 21], end: [7, 22], element: 'Water' },
-      { name: 'Leo', start: [7, 23], end: [8, 22], element: 'Fire' },
-      { name: 'Virgo', start: [8, 23], end: [9, 22], element: 'Earth' },
-      { name: 'Libra', start: [9, 23], end: [10, 22], element: 'Air' },
-      { name: 'Scorpio', start: [10, 23], end: [11, 21], element: 'Water' },
-      { name: 'Sagittarius', start: [11, 22], end: [12, 21], element: 'Fire' }
-    ];
+<div class="card">
 
-    const traits = {
-      Aries: ['bold', 'direct', 'fast-moving'],
-      Taurus: ['steady', 'loyal', 'comfort-driven'],
-      Gemini: ['curious', 'playful', 'social'],
-      Cancer: ['protective', 'deep', 'loyal'],
-      Leo: ['warm', 'confident', 'expressive'],
-      Virgo: ['thoughtful', 'practical', 'careful'],
-      Libra: ['balanced', 'charming', 'peace-seeking'],
-      Scorpio: ['intense', 'private', 'devoted'],
-      Sagittarius: ['free', 'optimistic', 'adventurous'],
-      Capricorn: ['grounded', 'serious', 'reliable'],
-      Aquarius: ['independent', 'original', 'detached'],
-      Pisces: ['empathic', 'dreamy', 'intuitive']
-    };
+<input id="name1" placeholder="Name 1">
+<input id="dob1" type="date">
 
-    const birthstones = {
-      1: 'Garnet',
-      2: 'Amethyst',
-      3: 'Aquamarine',
-      4: 'Diamond',
-      5: 'Emerald',
-      6: 'Pearl',
-      7: 'Ruby',
-      8: 'Peridot',
-      9: 'Sapphire',
-      10: 'Opal',
-      11: 'Topaz',
-      12: 'Turquoise'
-    };
+<input id="name2" placeholder="Name 2">
+<input id="dob2" type="date">
 
-    const specialPairings = {
-      'Cancer-Pisces': {
-        score: 90,
-        chemistry: 'Very strong emotional compatibility.',
-        strengths: [
-          'Natural emotional understanding',
-          'Soft, loyal bond',
-          'Strong home-and-heart energy'
-        ],
-        challenges: [
-          'Can both get overwhelmed',
-          'Need clear reassurance',
-          'May avoid hard conversations'
-        ],
-        vibe: 'This usually feels like comfort, intuition, and emotional closeness.'
-      },
-      'Pisces-Cancer': {
-        score: 90,
-        chemistry: 'Very strong emotional compatibility.',
-        strengths: [
-          'Natural emotional understanding',
-          'Soft, loyal bond',
-          'Strong home-and-heart energy'
-        ],
-        challenges: [
-          'Can both get overwhelmed',
-          'Need clear reassurance',
-          'May avoid hard conversations'
-        ],
-        vibe: 'This usually feels like comfort, intuition, and emotional closeness.'
-      }
-    };
+<select id="mode">
+<option value="love">❤️ Relationship</option>
+<option value="friend">🤝 Friendship</option>
+<option value="business">💼 Business</option>
+</select>
 
-    function getSign(dateStr) {
-      const date = new Date(dateStr);
-      if (Number.isNaN(date.getTime())) return null;
+<button onclick="compare()">Compare</button>
 
-      const month = date.getMonth() + 1;
-      const day = date.getDate();
+</div>
 
-      for (const sign of signs) {
-        const [sm, sd] = sign.start;
-        const [em, ed] = sign.end;
-        const wrapsYear = sm > em;
+<div id="result" class="card" style="display:none;"></div>
 
-        const inRange = wrapsYear
-          ? (month === sm && day >= sd) || (month === em && day <= ed) || month > sm || month < em
-          : (month === sm && day >= sd) || (month === em && day <= ed) || (month > sm && month < em);
+</div>
 
-        if (inRange) return sign;
-      }
-      return null;
-    }
+<script>
 
-    function getBirthstone(dateStr) {
-      const date = new Date(dateStr);
-      if (Number.isNaN(date.getTime())) return null;
-      return birthstones[date.getMonth() + 1];
-    }
+// ===== DATA =====
 
-    function getLifePath(dateStr) {
-      const digits = dateStr.replace(/-/g, '').split('').map(Number);
-      if (!digits.length || digits.some(Number.isNaN)) return null;
+const signs = [
+{ name:'Capricorn', start:[12,22], end:[1,19], element:'Earth' },
+{ name:'Aquarius', start:[1,20], end:[2,18], element:'Air' },
+{ name:'Pisces', start:[2,19], end:[3,20], element:'Water' },
+{ name:'Aries', start:[3,21], end:[4,19], element:'Fire' },
+{ name:'Taurus', start:[4,20], end:[5,20], element:'Earth' },
+{ name:'Gemini', start:[5,21], end:[6,20], element:'Air' },
+{ name:'Cancer', start:[6,21], end:[7,22], element:'Water' },
+{ name:'Leo', start:[7,23], end:[8,22], element:'Fire' },
+{ name:'Virgo', start:[8,23], end:[9,22], element:'Earth' },
+{ name:'Libra', start:[9,23], end:[10,22], element:'Air' },
+{ name:'Scorpio', start:[10,23], end:[11,21], element:'Water' },
+{ name:'Sagittarius', start:[11,22], end:[12,21], element:'Fire' }
+];
 
-      let total = digits.reduce((a, b) => a + b, 0);
-      while (total > 9 && total !== 11 && total !== 22 && total !== 33) {
-        total = String(total).split('').map(Number).reduce((a, b) => a + b, 0);
-      }
-      return total;
-    }
+const stones = {
+1:'Garnet',2:'Amethyst',3:'Aquamarine',4:'Diamond',
+5:'Emerald',6:'Pearl',7:'Ruby',8:'Peridot',
+9:'Sapphire',10:'Opal',11:'Topaz',12:'Turquoise'
+};
 
-    function genericCompatibility(a, b) {
-      if (a.name === b.name) return 88;
-      if (a.element === b.element) return 82;
+const summaries = [
+"This connection has strong potential when both people understand each other.",
+"There is a strong pull here, but it needs effort to grow.",
+"This pairing can feel natural but still requires communication.",
+"This connection can either grow strong or fade depending on effort."
+];
 
-      const supportive = [
-        ['Water', 'Earth'],
-        ['Earth', 'Water'],
-        ['Fire', 'Air'],
-        ['Air', 'Fire']
-      ];
+const quotes = [
+"You feel like home, but only if both of you communicate.",
+"High chemistry. Medium stability.",
+"Soft connection, strong pull.",
+"This match works when no one tries to control the other."
+];
 
-      return supportive.some(([x, y]) => x === a.element && y === b.element) ? 74 : 58;
-    }
+const strengthsList = [
+"Natural connection",
+"Strong emotional understanding",
+"Good communication potential",
+"Balanced energy",
+"Mutual attraction"
+];
 
-    function getLifePathText(a, b) {
-      if (a === b) {
-        return 'You both move through life in a similar way, which can feel easy and natural.';
-      }
-      if ((a === 6 && b === 1) || (a === 1 && b === 6)) {
-        return 'This pairing can be powerful: one person brings care and loyalty, the other brings drive and independence.';
-      }
-      return 'This pairing works best when both people respect each other’s pace, needs, and communication style.';
-    }
+const challengesList = [
+"Different emotional needs",
+"Communication gaps",
+"Timing differences",
+"Overthinking",
+"Need for reassurance"
+];
 
-    function adjustScore(score, signA, signB, pathA, pathB, mode) {
-      let bonus = 0;
+// ===== FUNCTIONS =====
 
-      if (pathA === pathB) bonus += 5;
-      if ((pathA === 6 && pathB === 1) || (pathA === 1 && pathB === 6)) bonus += 4;
+function getSign(date){
+let d = new Date(date);
+let m = d.getMonth()+1;
+let day = d.getDate();
 
-      if (mode === 'friendship' && signA.element === signB.element) bonus += 4;
+for(let s of signs){
+let [sm,sd]=s.start;
+let [em,ed]=s.end;
 
-      if (mode === 'business') {
-        if (signA.element === 'Earth' || signB.element === 'Earth') bonus += 3;
-        if (signA.element === 'Fire' || signB.element === 'Fire') bonus += 3;
-      }
+if(
+(sm<=em && (m==sm && day>=sd || m==em && day<=ed || (m>sm && m<em))) ||
+(sm>em && (m==sm && day>=sd || m==em && day<=ed || m>sm || m<em))
+){
+return s;
+}
+}
+}
 
-      return Math.min(100, score + bonus);
-    }
+function lifePath(date){
+let nums = date.replace(/-/g,'').split('').map(Number);
+let total = nums.reduce((a,b)=>a+b,0);
+while(total>9 && total!=11 && total!=22){
+total = total.toString().split('').map(Number).reduce((a,b)=>a+b,0);
+}
+return total;
+}
 
-    function getModeLabel(mode) {
-      if (mode === 'friendship') return 'Friendship Match';
-      if (mode === 'business') return 'Business Compatibility';
-      return 'Relationship Match';
-    }
+function label(score){
+if(score>=90) return "🔥 Rare Match";
+if(score>=80) return "💖 Strong Match";
+if(score>=70) return "✨ Good Potential";
+if(score>=60) return "⚖️ Mixed Match";
+if(score>=50) return "⚠️ Challenging";
+return "❌ Low Compatibility";
+}
 
-    function comparePeople() {
-      const name1 = document.getElementById('name1').value.trim() || 'Person 1';
-      const name2 = document.getElementById('name2').value.trim() || 'Person 2';
-      const dob1 = document.getElementById('dob1').value;
-      const dob2 = document.getElementById('dob2').value;
-      const mode = document.getElementById('mode').value;
-      const results = document.getElementById('results');
+// ===== MAIN =====
 
-      if (!dob1 || !dob2) {
-        results.style.display = 'block';
-        results.innerHTML = '<h2>Please enter both birthdays.</h2>';
-        return;
-      }
+function compare(){
 
-      const sign1 = getSign(dob1);
-      const sign2 = getSign(dob2);
-      const life1 = getLifePath(dob1);
-      const life2 = getLifePath(dob2);
-      const stone1 = getBirthstone(dob1);
-      const stone2 = getBirthstone(dob2);
+let n1 = document.getElementById("name1").value || "Person 1";
+let n2 = document.getElementById("name2").value || "Person 2";
 
-      if (!sign1 || !sign2) {
-        results.style.display = 'block';
-        results.innerHTML = '<h2>Could not calculate one of the signs.</h2>';
-        return;
-      }
+let d1 = document.getElementById("dob1").value;
+let d2 = document.getElementById("dob2").value;
+let mode = document.getElementById("mode").value;
 
-      const pairKey = `${sign1.name}-${sign2.name}`;
-      const special = specialPairings[pairKey];
+// VALIDATION
+if(!d1 || !d2){
+alert("Please enter both birthdays");
+return;
+}
 
-      const baseScore = special ? special.score : genericCompatibility(sign1, sign2);
-      const finalScore = adjustScore(baseScore, sign1, sign2, life1, life2, mode);
+let s1 = getSign(d1);
+let s2 = getSign(d2);
 
-      const chemistry = special
-        ? special.chemistry
-        : 'This pairing has potential, especially when both people communicate clearly.';
+let lp1 = lifePath(d1);
+let lp2 = lifePath(d2);
 
-      const vibe = special
-        ? special.vibe
-        : `${sign1.name} and ${sign2.name} can create an interesting dynamic of attraction, difference, and growth.`;
+// SCORE LOGIC
+let score = 60;
 
-      const strengths = special
-        ? special.strengths
-        : [
-            `${sign1.element} and ${sign2.element} energy can create a strong shared rhythm.`,
-            `${sign1.name} brings ${traits[sign1.name].slice(0, 2).join(' and ')} energy.`,
-            `${sign2.name} brings ${traits[sign2.name].slice(0, 2).join(' and ')} energy.`
-          ];
+if(s1.element === s2.element) score += 15;
+if(s1.name === s2.name) score += 10;
 
-      const challenges = special
-        ? special.challenges
-        : [
-            'Different emotional timing can cause misunderstandings.',
-            'Communication style matters more than attraction here.',
-            'The match improves a lot with reassurance and honesty.'
-          ];
+if((s1.element=="Water" && s2.element=="Earth") ||
+   (s1.element=="Earth" && s2.element=="Water") ||
+   (s1.element=="Fire" && s2.element=="Air") ||
+   (s1.element=="Air" && s2.element=="Fire")) score += 10;
 
-      const quote = `${sign1.name} and ${sign2.name}: a connection built on feeling, timing, and understanding.`;
+if(lp1===lp2) score+=5;
 
-      results.style.display = 'block';
-      results.innerHTML = `
-        <h2>${getModeLabel(mode)}</h2>
-        <p class="muted">${name1} + ${name2}</p>
-        <div class="score">${finalScore}%</div>
-        <p>${chemistry}</p>
-        <p>${vibe}</p>
+if(mode==="friend") score+=5;
+if(mode==="business" && (s1.element=="Earth"||s2.element=="Earth")) score+=5;
 
-        <div class="stats">
-          <div class="stat">
-            <div class="stat-label">${name1} Sign</div>
-            <div class="stat-value">${sign1.name}</div>
-          </div>
-          <div class="stat">
-            <div class="stat-label">${name2} Sign</div>
-            <div class="stat-value">${sign2.name}</div>
-          </div>
-          <div class="stat">
-            <div class="stat-label">${name1} Life Path</div>
-            <div class="stat-value">${life1}</div>
-          </div>
-          <div class="stat">
-            <div class="stat-label">${name2} Life Path</div>
-            <div class="stat-value">${life2}</div>
-          </div>
-        </div>
+// RANDOM CONTENT
+let summary = summaries[Math.floor(Math.random()*summaries.length)];
+let quote = quotes[Math.floor(Math.random()*quotes.length)];
 
-        <div style="margin-top:16px;">
-          <span class="pill">${name1}: ${sign1.element}</span>
-          <span class="pill">${name2}: ${sign2.element}</span>
-          <span class="pill">${name1}: ${stone1}</span>
-          <span class="pill">${name2}: ${stone2}</span>
-        </div>
+let strengths = strengthsList.slice(0,3);
+let challenges = challengesList.slice(0,3);
 
-        <div class="row" style="margin-top:18px;">
-          <div class="card" style="margin-bottom:0;">
-            <h3 class="section-title">Traits</h3>
-            <p><strong>${name1}:</strong> ${traits[sign1.name].join(', ')}</p>
-            <p><strong>${name2}:</strong> ${traits[sign2.name].join(', ')}</p>
-          </div>
+// OUTPUT
+document.getElementById("result").style.display="block";
 
-          <div class="card" style="margin-bottom:0;">
-            <h3 class="section-title">Life Path Dynamic</h3>
-            <p>${getLifePathText(life1, life2)}</p>
-          </div>
-        </div>
+document.getElementById("result").innerHTML = `
+<div class="name">${n1} ❤️ ${n2}</div>
 
-        <div class="row" style="margin-top:16px;">
-          <div class="card" style="margin-bottom:0;">
-            <h3 class="section-title">Strengths</h3>
-            <ul>
-              ${strengths.map(item => `<li>${item}</li>`).join('')}
-            </ul>
-          </div>
+<div class="score">${score}%</div>
+<div class="label">${label(score)}</div>
 
-          <div class="card" style="margin-bottom:0;">
-            <h3 class="section-title">Challenges</h3>
-            <ul>
-              ${challenges.map(item => `<li>${item}</li>`).join('')}
-            </ul>
-          </div>
-        </div>
+<div class="section">
+${s1.name} + ${s2.name}
+</div>
 
-        <div class="card" style="margin-top:16px; margin-bottom:0;">
-          <h3 class="section-title">Shareable Quote</h3>
-          <div class="quote">“${quote}”</div>
-        </div>
-      `;
-    }
+<div class="section">
+${stones[new Date(d1).getMonth()+1]} • ${stones[new Date(d2).getMonth()+1]}
+</div>
 
-    comparePeople();
-  </script>
+<div class="section">
+<b>${summary}</b>
+</div>
+
+<div class="section">
+<h3>Strengths</h3>
+<ul>${strengths.map(s=>`<li>${s}</li>`).join("")}</ul>
+</div>
+
+<div class="section">
+<h3>Challenges</h3>
+<ul>${challenges.map(c=>`<li>${c}</li>`).join("")}</ul>
+</div>
+
+<div class="quote">
+"${quote}"
+</div>
+`;
+
+}
+
+</script>
+
 </body>
 </html>
