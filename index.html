@@ -5,6 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Birthday Compare</title>
 
+<!-- 🔥 GOOGLE ANALYTICS -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9909V32B75"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-9909V32B75');
+</script>
+
 <style>
 body {
   margin: 0;
@@ -25,7 +34,7 @@ body {
   margin-bottom: 15px;
   border: 1px solid rgba(255,255,255,0.1);
 }
-input, select {
+input {
   width: 100%;
   padding: 14px;
   margin-top: 10px;
@@ -83,6 +92,13 @@ button {
 
 <script>
 
+// ===== TRACKING =====
+function track(eventName){
+  if(typeof gtag === "function"){
+    gtag('event', eventName);
+  }
+}
+
 // ===== SHARE COUNT =====
 let shareCount = parseInt(localStorage.getItem("shares")) || 0;
 
@@ -131,6 +147,8 @@ return "❌ Low Compatibility";
 
 // ===== MAIN =====
 function compare(){
+
+track("compare_clicked");
 
 let n1 = document.getElementById("name1").value || "Person 1";
 let n2 = document.getElementById("name2").value || "Person 2";
@@ -186,7 +204,10 @@ return document.getElementById("result").innerText + "\n\nTry yours 👀\n" + wi
 }
 
 function shareNative(){
+track("share_native");
+
 let text = getShareText();
+
 if(navigator.share){
 navigator.share({title:"Match Result", text, url:window.location.href});
 }else{
@@ -195,6 +216,8 @@ alert("Use WhatsApp or Copy 👇");
 }
 
 function shareWhatsApp(){
+track("share_whatsapp");
+
 let text = encodeURIComponent(getShareText());
 window.open(`https://wa.me/?text=${text}`, "_blank");
 
@@ -205,6 +228,8 @@ renderPremium();
 }
 
 function copyResult(){
+track("copy_result");
+
 let text = getShareText();
 navigator.clipboard.writeText(text);
 alert("Copied 🔥");
@@ -216,6 +241,9 @@ function renderPremium(){
 let box = document.getElementById("premiumBox");
 
 if(shareCount >= 5){
+
+track("premium_unlocked");
+
 box.innerHTML = `
 <div style="margin-top:15px; padding:12px; background:#111; border-radius:12px;">
 ✅ <b>Full Compatibility Insight</b>
@@ -227,7 +255,9 @@ box.innerHTML = `
 <p>⏳ Long-term: Good potential</p>
 </div>
 `;
+
 }else{
+
 box.innerHTML = `
 <div style="margin-top:15px; padding:12px; background:#111; border-radius:12px;">
 
@@ -245,6 +275,7 @@ box.innerHTML = `
 }
 
 function fakeUnlock(){
+track("clicked_unlock");
 alert("Payment coming next 🔥");
 }
 
