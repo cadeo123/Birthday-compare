@@ -37,7 +37,7 @@ input, select {
 button {
   width: 100%;
   padding: 15px;
-  margin-top: 15px;
+  margin-top: 10px;
   border-radius: 14px;
   border: none;
   font-weight: bold;
@@ -85,10 +85,6 @@ button {
 
 <div id="result" class="card" style="display:none;"></div>
 
-<button id="shareBtn" style="display:none;" onclick="shareResult()">
-📤 Share Result
-</button>
-
 </div>
 
 <script>
@@ -116,35 +112,14 @@ const stones = {
 };
 
 const special = {
-"Cancer-Pisces": {
-score: 90,
-summary: "This is one of those rare emotional connections where both people just understand each other naturally.",
-quote: "You don’t have to explain your feelings here — they’re already felt."
-},
-"Pisces-Cancer": {
-score: 90,
-summary: "A deeply intuitive bond that feels safe and naturally aligned.",
-quote: "This feels like comfort, connection, and something hard to replace."
-},
-"Leo-Aries": {
-score: 88,
-summary: "High energy, strong attraction, and a powerful dynamic.",
-quote: "Fire meets fire — intense, exciting, never boring."
-},
-"Taurus-Virgo": {
-score: 85,
-summary: "A grounded and stable connection with strong long-term potential.",
-quote: "This works because both value consistency and loyalty."
-},
-"Scorpio-Cancer": {
-score: 92,
-summary: "An intense emotional bond with deep loyalty.",
-quote: "This connection runs deep — not surface level."
-}
+"Cancer-Pisces": {score:90, summary:"A rare emotional connection.", quote:"You don’t have to explain feelings here."},
+"Pisces-Cancer": {score:90, summary:"Deep intuitive bond.", quote:"This feels natural and safe."},
+"Leo-Aries": {score:88, summary:"High energy attraction.", quote:"Fire meets fire."},
+"Taurus-Virgo": {score:85, summary:"Stable long-term match.", quote:"Built on consistency."},
+"Scorpio-Cancer": {score:92, summary:"Deep emotional loyalty.", quote:"This runs deep."}
 };
 
 // ===== FUNCTIONS =====
-
 function getSign(date){
 let d = new Date(date);
 let m = d.getMonth()+1;
@@ -173,7 +148,6 @@ return "❌ Low Compatibility";
 }
 
 // ===== MAIN =====
-
 function compare(){
 
 let n1 = document.getElementById("name1").value || "Person 1";
@@ -196,34 +170,34 @@ let result;
 if(special[key]){
 result = special[key];
 }else{
-
 let score = 60;
 
 if(s1.element === s2.element) score += 15;
 
-if((s1.element=="Water" && s2.element=="Earth") ||
-   (s1.element=="Earth" && s2.element=="Water") ||
-   (s1.element=="Fire" && s2.element=="Air") ||
-   (s1.element=="Air" && s2.element=="Fire")) score += 10;
+if(
+(s1.element=="Water" && s2.element=="Earth") ||
+(s1.element=="Earth" && s2.element=="Water") ||
+(s1.element=="Fire" && s2.element=="Air") ||
+(s1.element=="Air" && s2.element=="Fire")
+) score += 10;
 
 let summaries = [
-"This connection has potential, but depends on communication.",
-"There’s attraction here, but also differences to manage.",
-"This can work well with effort from both sides."
+"This connection has potential.",
+"Attraction is there but needs effort.",
+"This can work with good communication."
 ];
 
 let quotes = [
-"Some connections grow stronger over time.",
-"This works when both people meet in the middle.",
-"Potential is here — consistency decides the outcome."
+"Some connections grow over time.",
+"Consistency decides this one.",
+"Potential is here."
 ];
 
 result = {
-score: score,
+score,
 summary: summaries[Math.floor(Math.random()*summaries.length)],
 quote: quotes[Math.floor(Math.random()*quotes.length)]
 };
-
 }
 
 // ===== OUTPUT =====
@@ -235,44 +209,52 @@ document.getElementById("result").innerHTML = `
 <div class="score">${result.score}%</div>
 <div class="label">${label(result.score)}</div>
 
-<div class="section">
-${s1.name} + ${s2.name}
-</div>
+<div class="section">${s1.name} + ${s2.name}</div>
 
 <div class="section">
 ${stones[new Date(d1).getMonth()+1]} • ${stones[new Date(d2).getMonth()+1]}
 </div>
 
-<div class="section">
-<b>${result.summary}</b>
-</div>
+<div class="section"><b>${result.summary}</b></div>
 
-<div class="quote">
-"${result.quote}"
+<div class="quote">"${result.quote}"</div>
+
+<div style="margin-top:15px; display:flex; flex-direction:column; gap:10px;">
+<button onclick="shareNative()">📤 Share</button>
+<button onclick="shareWhatsApp()">🟢 Send via WhatsApp</button>
+<button onclick="copyResult()">📋 Copy Result</button>
 </div>
 `;
-
-document.getElementById("shareBtn").style.display = "block";
-
 }
 
-// ===== SHARE =====
+// ===== SHARE SYSTEM =====
+function getShareText(){
+return document.getElementById("result").innerText + "\n\nTry yours 👀\n" + window.location.href;
+}
 
-function shareResult(){
-
-let text = document.getElementById("result").innerText + "\n\nTry yours 👀\n" + window.location.href;
+function shareNative(){
+let text = getShareText();
 
 if(navigator.share){
-  navigator.share({
-    title: "Compatibility Result",
-    text: text,
-    url: window.location.href
-  });
+navigator.share({
+title: "Compatibility Result",
+text: text,
+url: window.location.href
+});
 }else{
-  navigator.clipboard.writeText(text);
-  alert("Copied to clipboard!");
+alert("Use WhatsApp or Copy below 👇");
+}
 }
 
+function shareWhatsApp(){
+let text = encodeURIComponent(getShareText());
+window.open(`https://wa.me/?text=${text}`, "_blank");
+}
+
+function copyResult(){
+let text = getShareText();
+navigator.clipboard.writeText(text);
+alert("Copied — paste it anywhere 🔥");
 }
 
 </script>
