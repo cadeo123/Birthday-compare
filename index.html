@@ -1,285 +1,475 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Birthday Compare</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Birthday Compare</title>
 
-<!-- 🔥 GOOGLE ANALYTICS -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-9909V32B75"></script>
-<script>
-window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-gtag('config', 'G-9909V32B75');
-</script>
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-9909V32B75"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-9909V32B75');
+  </script>
 
-<style>
-body {
-  margin: 0;
-  font-family: -apple-system, sans-serif;
-  background: linear-gradient(135deg, #0a0a0a, #111);
-  color: white;
-  padding: 20px;
-}
-.container {
-  max-width: 500px;
-  margin: auto;
-}
-.card {
-  background: rgba(255,255,255,0.05);
-  backdrop-filter: blur(12px);
-  border-radius: 20px;
-  padding: 18px;
-  margin-bottom: 15px;
-  border: 1px solid rgba(255,255,255,0.1);
-}
-input {
-  width: 100%;
-  padding: 14px;
-  margin-top: 10px;
-  border-radius: 14px;
-  border: none;
-  background: #111;
-  color: white;
-}
-button {
-  width: 100%;
-  padding: 15px;
-  margin-top: 10px;
-  border-radius: 14px;
-  border: none;
-  font-weight: bold;
-  background: linear-gradient(90deg, #ff4d6d, #c77dff);
-  color: white;
-}
-.score {
-  font-size: 48px;
-  font-weight: bold;
-  background: linear-gradient(90deg, #ff4d6d, #c77dff);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-.name { font-size: 22px; font-weight: bold; }
-.label { opacity: 0.7; }
-.section { margin-top: 15px; }
-.quote { margin-top: 15px; font-style: italic; }
-</style>
+  <style>
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: linear-gradient(135deg, #0a0a0a, #111);
+      color: white;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(12px);
+      border-radius: 20px;
+      padding: 18px;
+      margin-bottom: 15px;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    h2, h3, p {
+      margin-top: 0;
+    }
+
+    input, button {
+      width: 100%;
+      padding: 14px;
+      margin-top: 10px;
+      border-radius: 14px;
+      border: none;
+      background: #111;
+      color: white;
+      box-sizing: border-box;
+      font-size: 16px;
+    }
+
+    button {
+      font-weight: 700;
+      background: linear-gradient(90deg, #ff4d6d, #c77dff);
+      cursor: pointer;
+    }
+
+    .score {
+      font-size: 48px;
+      font-weight: bold;
+      background: linear-gradient(90deg, #ff4d6d, #c77dff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .name {
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    .label {
+      opacity: 0.75;
+      margin-bottom: 10px;
+    }
+
+    .section {
+      margin-top: 15px;
+    }
+
+    .quote {
+      margin-top: 15px;
+      font-style: italic;
+      opacity: 0.95;
+    }
+
+    .small {
+      opacity: 0.75;
+      font-size: 14px;
+    }
+
+    .premium-box {
+      margin-top: 15px;
+      padding: 12px;
+      background: #111;
+      border-radius: 12px;
+    }
+
+    .pill {
+      display: inline-block;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.08);
+      margin-right: 8px;
+      margin-top: 8px;
+      font-size: 14px;
+    }
+  </style>
 </head>
-
 <body>
+  <div class="container">
 
-<div class="container">
+    <div class="card">
+      <h2>Birthday Compare</h2>
+      <p>Find your real compatibility</p>
+    </div>
 
-<div class="card">
-<h2>Birthday Compare</h2>
-<p>Find your real compatibility</p>
-</div>
+    <div class="card">
+      <input id="name1" placeholder="Name 1" />
+      <input id="dob1" type="date" />
 
-<div class="card">
-<input id="name1" placeholder="Name 1">
-<input id="dob1" type="date">
+      <input id="name2" placeholder="Name 2" />
+      <input id="dob2" type="date" />
 
-<input id="name2" placeholder="Name 2">
-<input id="dob2" type="date">
+      <button onclick="compare()">Compare</button>
+    </div>
 
-<button onclick="compare()">Compare</button>
-</div>
+    <div id="result" class="card" style="display:none;"></div>
 
-<div id="result" class="card" style="display:none;"></div>
+  </div>
 
-</div>
+  <script>
+    function track(eventName, params = {}) {
+      if (typeof gtag === "function") {
+        gtag("event", eventName, params);
+      }
+    }
 
-<script>
+    let shareCount = parseInt(localStorage.getItem("shares") || "0", 10);
 
-// ===== TRACKING =====
-function track(eventName){
-  if(typeof gtag === "function"){
-    gtag('event', eventName);
-  }
-}
+    const signs = [
+      { name:'Capricorn', start:[12,22], end:[1,19], element:'Earth' },
+      { name:'Aquarius', start:[1,20], end:[2,18], element:'Air' },
+      { name:'Pisces', start:[2,19], end:[3,20], element:'Water' },
+      { name:'Aries', start:[3,21], end:[4,19], element:'Fire' },
+      { name:'Taurus', start:[4,20], end:[5,20], element:'Earth' },
+      { name:'Gemini', start:[5,21], end:[6,20], element:'Air' },
+      { name:'Cancer', start:[6,21], end:[7,22], element:'Water' },
+      { name:'Leo', start:[7,23], end:[8,22], element:'Fire' },
+      { name:'Virgo', start:[8,23], end:[9,22], element:'Earth' },
+      { name:'Libra', start:[9,23], end:[10,22], element:'Air' },
+      { name:'Scorpio', start:[10,23], end:[11,21], element:'Water' },
+      { name:'Sagittarius', start:[11,22], end:[12,21], element:'Fire' }
+    ];
 
-// ===== SHARE COUNT =====
-let shareCount = parseInt(localStorage.getItem("shares")) || 0;
+    const birthstones = {
+      1:'Garnet',
+      2:'Amethyst',
+      3:'Aquamarine',
+      4:'Diamond',
+      5:'Emerald',
+      6:'Pearl',
+      7:'Ruby',
+      8:'Peridot',
+      9:'Sapphire',
+      10:'Opal',
+      11:'Topaz',
+      12:'Turquoise'
+    };
 
-// ===== DATA =====
-const signs = [
-{ name:'Capricorn', start:[12,22], end:[1,19], element:'Earth' },
-{ name:'Aquarius', start:[1,20], end:[2,18], element:'Air' },
-{ name:'Pisces', start:[2,19], end:[3,20], element:'Water' },
-{ name:'Aries', start:[3,21], end:[4,19], element:'Fire' },
-{ name:'Taurus', start:[4,20], end:[5,20], element:'Earth' },
-{ name:'Gemini', start:[5,21], end:[6,20], element:'Air' },
-{ name:'Cancer', start:[6,21], end:[7,22], element:'Water' },
-{ name:'Leo', start:[7,23], end:[8,22], element:'Fire' },
-{ name:'Virgo', start:[8,23], end:[9,22], element:'Earth' },
-{ name:'Libra', start:[9,23], end:[10,22], element:'Air' },
-{ name:'Scorpio', start:[10,23], end:[11,21], element:'Water' },
-{ name:'Sagittarius', start:[11,22], end:[12,21], element:'Fire' }
-];
+    const specialPairs = {
+      "Cancer-Pisces": {
+        score: 90,
+        summary: "This is one of those rare emotional connections where both people naturally understand each other.",
+        quote: "You don’t have to explain your feelings here — they’re already felt."
+      },
+      "Pisces-Cancer": {
+        score: 90,
+        summary: "A deeply intuitive bond that feels safe, emotional, and naturally aligned.",
+        quote: "This feels like comfort, connection, and something hard to replace."
+      },
+      "Scorpio-Cancer": {
+        score: 92,
+        summary: "This pairing can feel intense, loyal, and emotionally powerful when both open up.",
+        quote: "This connection runs deep — not surface level."
+      },
+      "Cancer-Scorpio": {
+        score: 92,
+        summary: "This pairing can feel intense, loyal, and emotionally powerful when both open up.",
+        quote: "This connection runs deep — not surface level."
+      },
+      "Leo-Aries": {
+        score: 88,
+        summary: "High energy, strong attraction, and a powerful dynamic when both respect each other.",
+        quote: "Fire meets fire — intense, exciting, and never boring."
+      },
+      "Aries-Leo": {
+        score: 88,
+        summary: "High energy, strong attraction, and a powerful dynamic when both respect each other.",
+        quote: "Fire meets fire — intense, exciting, and never boring."
+      },
+      "Taurus-Virgo": {
+        score: 85,
+        summary: "A grounded, steady pairing with strong long-term potential and natural trust.",
+        quote: "This works because both of you value consistency and loyalty."
+      },
+      "Virgo-Taurus": {
+        score: 85,
+        summary: "A grounded, steady pairing with strong long-term potential and natural trust.",
+        quote: "This works because both of you value consistency and loyalty."
+      },
+      "Gemini-Libra": {
+        score: 84,
+        summary: "A light, social, and naturally flowing connection with easy conversation.",
+        quote: "This match works best when the energy stays playful and open."
+      },
+      "Libra-Gemini": {
+        score: 84,
+        summary: "A light, social, and naturally flowing connection with easy conversation.",
+        quote: "This match works best when the energy stays playful and open."
+      }
+    };
 
-function getSign(date){
-let d = new Date(date);
-let m = d.getMonth()+1;
-let day = d.getDate();
+    const fallbackSummaries = [
+      "This connection has potential, but it depends on communication and timing.",
+      "There’s attraction here, but differences may need patience and understanding.",
+      "This pairing can work well when both people meet in the middle.",
+      "This connection feels promising, but consistency will decide how strong it becomes."
+    ];
 
-for(let s of signs){
-let [sm,sd]=s.start;
-let [em,ed]=s.end;
+    const fallbackQuotes = [
+      "Some connections grow stronger over time.",
+      "This works best when both people stay honest and consistent.",
+      "Potential is here — what happens next depends on effort.",
+      "Sometimes the strongest matches still need the clearest communication."
+    ];
 
-if(
-(sm<=em && (m==sm && day>=sd || m==em && day<=ed || (m>sm && m<em))) ||
-(sm>em && (m==sm && day>=sd || m==em && day<=ed || m>sm || m<em))
-){
-return s;
-}
-}
-}
+    function getSign(dateStr) {
+      const d = new Date(dateStr);
+      if (Number.isNaN(d.getTime())) return null;
 
-function label(score){
-if(score>=90) return "🔥 Rare Match";
-if(score>=80) return "💖 Strong Match";
-if(score>=70) return "✨ Good Potential";
-if(score>=60) return "⚖️ Mixed Match";
-if(score>=50) return "⚠️ Challenging";
-return "❌ Low Compatibility";
-}
+      const m = d.getMonth() + 1;
+      const day = d.getDate();
 
-// ===== MAIN =====
-function compare(){
+      for (const s of signs) {
+        const [sm, sd] = s.start;
+        const [em, ed] = s.end;
 
-track("compare_clicked");
+        const isNormalRange =
+          sm <= em &&
+          (
+            (m === sm && day >= sd) ||
+            (m === em && day <= ed) ||
+            (m > sm && m < em)
+          );
 
-let n1 = document.getElementById("name1").value || "Person 1";
-let n2 = document.getElementById("name2").value || "Person 2";
+        const isWrappedRange =
+          sm > em &&
+          (
+            (m === sm && day >= sd) ||
+            (m === em && day <= ed) ||
+            m > sm ||
+            m < em
+          );
 
-let d1 = document.getElementById("dob1").value;
-let d2 = document.getElementById("dob2").value;
+        if (isNormalRange || isWrappedRange) return s;
+      }
 
-if(!d1 || !d2){
-alert("Enter both birthdays");
-return;
-}
+      return null;
+    }
 
-let s1 = getSign(d1);
-let s2 = getSign(d2);
+    function label(score) {
+      if (score >= 90) return "🔥 Rare Match";
+      if (score >= 80) return "💖 Strong Match";
+      if (score >= 70) return "✨ Good Potential";
+      if (score >= 60) return "⚖️ Mixed Match";
+      if (score >= 50) return "⚠️ Challenging";
+      return "❌ Low Compatibility";
+    }
 
-let score = 60;
-if(s1.element === s2.element) score += 15;
-if(
-(s1.element=="Water" && s2.element=="Earth") ||
-(s1.element=="Earth" && s2.element=="Water") ||
-(s1.element=="Fire" && s2.element=="Air") ||
-(s1.element=="Air" && s2.element=="Fire")
-) score += 10;
+    function getBirthstone(dateStr) {
+      const d = new Date(dateStr);
+      if (Number.isNaN(d.getTime())) return "";
+      return birthstones[d.getMonth() + 1] || "";
+    }
 
-// ===== OUTPUT =====
-document.getElementById("result").style.display="block";
+    function buildResult(name1, name2, sign1, sign2, d1, d2) {
+      const key = `${sign1.name}-${sign2.name}`;
 
-document.getElementById("result").innerHTML = `
-<div class="name">${n1} ❤️ ${n2}</div>
-<div class="score">${score}%</div>
-<div class="label">${label(score)}</div>
+      if (specialPairs[key]) {
+        return specialPairs[key];
+      }
 
-<div class="section">${s1.name} + ${s2.name}</div>
+      let score = 60;
 
-<div class="quote">"There’s something interesting between you two."</div>
+      if (sign1.element === sign2.element) score += 15;
 
-<div style="margin-top:15px;">
-<button onclick="shareNative()">📤 Share</button>
-<button onclick="shareWhatsApp()">🟢 WhatsApp</button>
-<button onclick="copyResult()">📋 Copy</button>
-</div>
+      const supportive =
+        (sign1.element === "Water" && sign2.element === "Earth") ||
+        (sign1.element === "Earth" && sign2.element === "Water") ||
+        (sign1.element === "Fire" && sign2.element === "Air") ||
+        (sign1.element === "Air" && sign2.element === "Fire");
 
-<div id="premiumBox"></div>
-`;
+      if (supportive) score += 10;
 
-renderPremium();
+      const summary = fallbackSummaries[Math.floor(Math.random() * fallbackSummaries.length)];
+      const quote = fallbackQuotes[Math.floor(Math.random() * fallbackQuotes.length)];
 
-}
+      return { score, summary, quote };
+    }
 
-// ===== SHARE SYSTEM =====
-function getShareText(){
-return document.getElementById("result").innerText + "\n\nTry yours 👀\n" + window.location.href;
-}
+    function compare() {
+      track("compare_clicked");
 
-function shareNative(){
-track("share_native");
+      const n1 = document.getElementById("name1").value.trim() || "Person 1";
+      const n2 = document.getElementById("name2").value.trim() || "Person 2";
+      const d1 = document.getElementById("dob1").value;
+      const d2 = document.getElementById("dob2").value;
 
-let text = getShareText();
+      if (!d1 || !d2) {
+        alert("Enter both birthdays");
+        return;
+      }
 
-if(navigator.share){
-navigator.share({title:"Match Result", text, url:window.location.href});
-}else{
-alert("Use WhatsApp or Copy 👇");
-}
-}
+      const s1 = getSign(d1);
+      const s2 = getSign(d2);
 
-function shareWhatsApp(){
-track("share_whatsapp");
+      if (!s1 || !s2) {
+        alert("Could not calculate one of the zodiac signs.");
+        return;
+      }
 
-let text = encodeURIComponent(getShareText());
-window.open(`https://wa.me/?text=${text}`, "_blank");
+      const result = buildResult(n1, n2, s1, s2, d1, d2);
+      const stone1 = getBirthstone(d1);
+      const stone2 = getBirthstone(d2);
 
-shareCount++;
-localStorage.setItem("shares", shareCount);
+      document.getElementById("result").style.display = "block";
+      document.getElementById("result").innerHTML = `
+        <div class="name">${escapeHtml(n1)} ❤️ ${escapeHtml(n2)}</div>
+        <div class="score">${result.score}%</div>
+        <div class="label">${label(result.score)}</div>
 
-renderPremium();
-}
+        <div class="section"><strong>${s1.name}</strong> + <strong>${s2.name}</strong></div>
 
-function copyResult(){
-track("copy_result");
+        <div class="section">
+          <span class="pill">${s1.element}</span>
+          <span class="pill">${s2.element}</span>
+        </div>
 
-let text = getShareText();
-navigator.clipboard.writeText(text);
-alert("Copied 🔥");
-}
+        <div class="section small">${stone1} • ${stone2}</div>
 
-// ===== PREMIUM =====
-function renderPremium(){
+        <div class="section"><b>${result.summary}</b></div>
 
-let box = document.getElementById("premiumBox");
+        <div class="quote">"${result.quote}"</div>
 
-if(shareCount >= 5){
+        <div style="margin-top:15px;">
+          <button onclick="shareNative()">📤 Share</button>
+          <button onclick="shareWhatsApp()">🟢 WhatsApp</button>
+          <button onclick="copyResult()">📋 Copy</button>
+        </div>
 
-track("premium_unlocked");
+        <div id="premiumBox"></div>
+      `;
 
-box.innerHTML = `
-<div style="margin-top:15px; padding:12px; background:#111; border-radius:12px;">
-✅ <b>Full Compatibility Insight</b>
+      renderPremium();
+    }
 
-<p>❤️ Emotional: Strong connection with depth</p>
-<p>🧠 Communication: Needs balance</p>
-<p>⚠️ Challenges: Emotional timing</p>
-<p>🔥 Attraction: High chemistry</p>
-<p>⏳ Long-term: Good potential</p>
-</div>
-`;
+    function getShareText() {
+      return document.getElementById("result").innerText + "\n\nTry yours 👀\n" + window.location.href;
+    }
 
-}else{
+    function incrementShareCount(source) {
+      shareCount += 1;
+      localStorage.setItem("shares", String(shareCount));
+      track("share_count_incremented", { source, count: shareCount });
+      renderPremium();
+    }
 
-box.innerHTML = `
-<div style="margin-top:15px; padding:12px; background:#111; border-radius:12px;">
+    async function shareNative() {
+      track("share_native_clicked");
 
-🔒 <b>Unlock Full Insight</b>
+      const text = getShareText();
 
-<p>Share with friends (${shareCount}/5)</p>
+      if (navigator.share) {
+        try {
+          await navigator.share({
+            title: "Compatibility Result",
+            text,
+            url: window.location.href
+          });
+          incrementShareCount("native");
+        } catch (err) {
+          track("share_native_cancelled");
+        }
+      } else {
+        alert("Use WhatsApp or Copy below 👇");
+      }
+    }
 
-<button onclick="shareWhatsApp()">Share to unlock</button>
+    function shareWhatsApp() {
+      track("share_whatsapp_clicked");
 
-<button onclick="fakeUnlock()">Unlock for £0.99</button>
+      const text = encodeURIComponent(getShareText());
+      window.open(`https://wa.me/?text=${text}`, "_blank");
+      incrementShareCount("whatsapp");
+    }
 
-</div>
-`;
-}
-}
+    async function copyResult() {
+      track("copy_result_clicked");
 
-function fakeUnlock(){
-track("clicked_unlock");
-alert("Payment coming next 🔥");
-}
+      const text = getShareText();
 
-</script>
+      try {
+        await navigator.clipboard.writeText(text);
+        alert("Copied 🔥");
+        incrementShareCount("copy");
+      } catch (err) {
+        alert("Copy failed on this device.");
+      }
+    }
 
+    function renderPremium() {
+      const box = document.getElementById("premiumBox");
+      if (!box) return;
+
+      if (shareCount >= 5) {
+        if (!localStorage.getItem("premiumTracked")) {
+          track("premium_unlocked");
+          localStorage.setItem("premiumTracked", "true");
+        }
+
+        box.innerHTML = `
+          <div class="premium-box">
+            ✅ <b>Full Compatibility Insight</b>
+
+            <p>❤️ Emotional: Strong connection with depth</p>
+            <p>🧠 Communication: Needs balance and patience</p>
+            <p>⚠️ Challenges: Emotional timing and reassurance</p>
+            <p>🔥 Attraction: High chemistry potential</p>
+            <p>⏳ Long-term: Good potential when both stay consistent</p>
+          </div>
+        `;
+      } else {
+        box.innerHTML = `
+          <div class="premium-box">
+            🔒 <b>Unlock Full Insight</b>
+
+            <p>Share with friends (${shareCount}/5)</p>
+
+            <button onclick="shareWhatsApp()">Share to unlock</button>
+            <button onclick="fakeUnlock()">Unlock for £0.99</button>
+          </div>
+        `;
+      }
+    }
+
+    function fakeUnlock() {
+      track("clicked_unlock");
+      alert("Payment coming next 🔥");
+    }
+
+    function escapeHtml(str) {
+      return str
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+  </script>
 </body>
 </html>
