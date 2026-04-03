@@ -321,6 +321,11 @@
       "Libra-Gemini": { score: 84, quote: "This match works best when the energy stays playful and open." }
     };
 
+    const signOrder = [
+      "Aries","Taurus","Gemini","Cancer","Leo","Virgo",
+      "Libra","Scorpio","Sagittarius","Capricorn","Aquarius","Pisces"
+    ];
+
     function getSign(dateStr) {
       const d = new Date(dateStr);
       if (Number.isNaN(d.getTime())) return null;
@@ -507,8 +512,9 @@
       const key = `${s1.name}-${s2.name}`;
       if (specialPairs[key]?.score) return specialPairs[key].score;
 
-      let val = 60;
-      if (s1.element === s2.element) val += 15;
+      let score = 60;
+
+      if (s1.element === s2.element) score += 12;
 
       const supportive =
         (s1.element === "Water" && s2.element === "Earth") ||
@@ -516,9 +522,29 @@
         (s1.element === "Fire" && s2.element === "Air") ||
         (s1.element === "Air" && s2.element === "Fire");
 
-      if (supportive) val += 10;
+      if (supportive) score += 10;
 
-      return val;
+      const clashing =
+        (s1.element === "Fire" && s2.element === "Water") ||
+        (s1.element === "Water" && s2.element === "Fire") ||
+        (s1.element === "Air" && s2.element === "Earth") ||
+        (s1.element === "Earth" && s2.element === "Air");
+
+      if (clashing) score -= 8;
+
+      if (s1.name === s2.name) score += 6;
+
+      const i1 = signOrder.indexOf(s1.name);
+      const i2 = signOrder.indexOf(s2.name);
+      const diff = Math.abs(i1 - i2);
+      const circularDiff = Math.min(diff, 12 - diff);
+
+      if (circularDiff === 1) score -= 3;
+
+      if (score > 95) score = 95;
+      if (score < 42) score = 42;
+
+      return score;
     }
 
     function compare() {
