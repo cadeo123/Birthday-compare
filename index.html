@@ -226,6 +226,23 @@
       font-size: 13px;
       color: rgba(255,255,255,0.68);
     }
+
+    .loader {
+      text-align: center;
+      padding: 30px 20px;
+    }
+
+    .loader-text {
+      font-size: 16px;
+      color: rgba(255,255,255,0.85);
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+
+    .loader-sub {
+      font-size: 13px;
+      color: rgba(255,255,255,0.55);
+    }
   </style>
 </head>
 <body>
@@ -235,6 +252,7 @@
       <h1>This was weirdly accurate…</h1>
       <p class="subtle">Find out what your connection really feels like.</p>
       <p class="tiny">Most people expect a random score… but sometimes it feels a little too real.</p>
+      <p class="tiny" style="margin-top:8px;">People keep sending this to their ex 👀</p>
     </div>
 
     <div class="card">
@@ -553,41 +571,74 @@
       resetCompareState();
       track("compare_clicked", { current_user: userId });
 
-      const n1 = document.getElementById("name1").value.trim() || "Person 1";
-      const n2 = document.getElementById("name2").value.trim() || "Person 2";
-      const d1 = document.getElementById("dob1").value;
-      const d2 = document.getElementById("dob2").value;
+      const resultEl = document.getElementById("result");
+      resultEl.style.display = "block";
 
-      if (!d1 || !d2) {
-        alert("Enter both birthdays");
-        return;
-      }
+      resultEl.innerHTML = `
+        <div class="loader">
+          <div class="loader-text">Calculating your connection...</div>
+          <div class="loader-sub">Checking emotional patterns</div>
+        </div>
+      `;
 
-      const s1 = getSign(d1);
-      const s2 = getSign(d2);
+      const messages = [
+        "Calculating your connection...",
+        "Checking emotional patterns...",
+        "Reading compatibility signals...",
+        "Looking at deeper alignment..."
+      ];
 
-      if (!s1 || !s2) {
-        alert("Could not calculate one of the zodiac signs.");
-        return;
-      }
+      let i = 0;
 
-      const score = calculateScore(s1, s2);
+      const interval = setInterval(() => {
+        i++;
+        const loaderText = document.querySelector(".loader-text");
+        if (i < messages.length && loaderText) {
+          loaderText.innerText = messages[i];
+        }
+      }, 700);
 
-      latestResult = {
-        name1: n1,
-        name2: n2,
-        sign1: s1,
-        sign2: s2,
-        stone1: getBirthstone(d1),
-        stone2: getBirthstone(d2),
-        score,
-        summary: getSummary(score, s1, s2, n1, n2),
-        signInsight: getSignInsight(s1, s2, n1, n2),
-        quote: getQuote(score, s1, s2),
-        premium: getPremiumInsight(n1, n2, s1, s2, score)
-      };
+      setTimeout(() => {
+        clearInterval(interval);
 
-      renderResult();
+        const n1 = document.getElementById("name1").value.trim() || "Person 1";
+        const n2 = document.getElementById("name2").value.trim() || "Person 2";
+        const d1 = document.getElementById("dob1").value;
+        const d2 = document.getElementById("dob2").value;
+
+        if (!d1 || !d2) {
+          alert("Enter both birthdays");
+          resultEl.style.display = "none";
+          return;
+        }
+
+        const s1 = getSign(d1);
+        const s2 = getSign(d2);
+
+        if (!s1 || !s2) {
+          alert("Could not calculate one of the zodiac signs.");
+          resultEl.style.display = "none";
+          return;
+        }
+
+        const score = calculateScore(s1, s2);
+
+        latestResult = {
+          name1: n1,
+          name2: n2,
+          sign1: s1,
+          sign2: s2,
+          stone1: getBirthstone(d1),
+          stone2: getBirthstone(d2),
+          score,
+          summary: getSummary(score, s1, s2, n1, n2),
+          signInsight: getSignInsight(s1, s2, n1, n2),
+          quote: getQuote(score, s1, s2),
+          premium: getPremiumInsight(n1, n2, s1, s2, score)
+        };
+
+        renderResult();
+      }, 2200);
     }
 
     function renderResult() {
@@ -625,7 +676,7 @@
 
         <div class="quote">"${escapeHtml(r.quote)}"</div>
 
-        <div class="micro-hook">Be honest… this feels accurate, doesn’t it?</div>
+        <div class="micro-hook">Be honest… this feels a bit too accurate, doesn’t it?</div>
         <div class="micro-hook">Most people send this to the person they tested 👀</div>
 
         <div class="result-actions">
