@@ -1,21 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Open Graph / Facebook -->
-<meta property="og:title" content="This was weirdly accurate… 👀">
-<meta property="og:description" content="Put in 2 names and birthdays… some of these are a bit too real 😭">
-<meta property="og:url" content="https://thiswasaccurate.github.io/">
-<meta property="og:type" content="website">
-<meta property="og:image" content="https://thiswasaccurate.github.io/preview.png">
-
-<!-- Twitter (also helps some platforms) -->
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="This was weirdly accurate… 👀">
-<meta name="twitter:description" content="Try this with someone you know 😭">
-<meta name="twitter:image" content="https://thiswasaccurate.github.io/preview.png">
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>This Was Accurate</title>
+  <title>This was weirdly accurate… 👀</title>
+  <meta name="description" content="Put in 2 names and birthdays… some of these are a bit too real 😭" />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:title" content="This was weirdly accurate… 👀" />
+  <meta property="og:description" content="Put in 2 names and birthdays… some of these are a bit too real 😭" />
+  <meta property="og:url" content="https://thiswasaccurate.github.io/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://thiswasaccurate.github.io/preview.png" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="This was weirdly accurate… 👀" />
+  <meta name="twitter:description" content="Try this with someone you know 😭" />
+  <meta name="twitter:image" content="https://thiswasaccurate.github.io/preview.png" />
 
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-9909V32B75"></script>
   <script>
@@ -323,7 +325,7 @@
       <input id="name2" placeholder="Their name" onfocus="trackInputStarted()" />
       <input id="dob2" type="date" onfocus="trackInputStarted()" />
 
-      <button onclick="compare()">See what it says 👀</button>
+      <button type="button" onclick="compare()">See what it says 👀</button>
       <p class="tiny" style="margin-top:10px;">No signup. No download. Runs instantly in your browser.</p>
     </div>
 
@@ -346,6 +348,12 @@
         track("user_id_created", { user_id: id });
       }
       return id;
+    }
+
+    function smoothScrollToEl(el, offset = 16) {
+      if (!el) return;
+      const top = el.getBoundingClientRect().top + window.scrollY - offset;
+      window.scrollTo({ top, behavior: "smooth" });
     }
 
     const userId = getUserId();
@@ -669,7 +677,7 @@
       return val;
     }
 
-    function compare() {
+    function compare(scrollAfter = true) {
       resetCompareState();
       track("compare_clicked", { current_user: userId });
 
@@ -692,6 +700,10 @@
           <div class="loader-sub">Checking emotional patterns</div>
         </div>
       `;
+
+      if (scrollAfter) {
+        smoothScrollToEl(resultEl, 12);
+      }
 
       const messages = [
         "Calculating your connection...",
@@ -749,11 +761,11 @@
           premium: getPremiumInsight(n1, n2, s1, s2, score)
         };
 
-        renderResult();
+        renderResult(scrollAfter);
       }, 5000);
     }
 
-    function renderResult() {
+    function renderResult(scrollAfter = true) {
       if (!latestResult) return;
 
       const r = latestResult;
@@ -794,7 +806,7 @@
         <div class="micro-hook">Most people send this to the person they tested 👀</div>
         <div class="micro-hook">Try this with your ex… it hits different.</div>
 
-        <button class="ghost-btn" onclick="feltAccurate()">😳 That was accurate</button>
+        <button type="button" class="ghost-btn" onclick="feltAccurate()">😳 That was accurate</button>
 
         <div class="curiosity-break">
           <div class="curiosity-title">${escapeHtml(teaser.title)}</div>
@@ -806,10 +818,10 @@
         <div class="micro-hook">👀 Most people send this part… not the score</div>
 
         <div class="result-actions">
-          <button onclick="shareNative()">📤 Send this to them 👀</button>
-          <button onclick="shareWhatsApp()">🟢 Send on WhatsApp</button>
-          <button onclick="shareFacebook()">🔵 Post this on Facebook</button>
-          <button class="secondary-btn" onclick="copyResult()">📋 Copy & send</button>
+          <button type="button" onclick="shareNative()">📤 Send this to them 👀</button>
+          <button type="button" onclick="shareWhatsApp()">🟢 Send on WhatsApp</button>
+          <button type="button" onclick="shareFacebook()">🔵 Post this on Facebook</button>
+          <button type="button" class="secondary-btn" onclick="copyResult()">📋 Copy & send</button>
         </div>
 
         <div class="cta-copy">
@@ -823,11 +835,11 @@
           <div class="section-title">👀 Try another match</div>
           <div class="micro-hook">Most people try this with: their ex… then someone new 👀</div>
 
-          <button class="secondary-btn" onclick="tryAgain()">
+          <button type="button" class="secondary-btn" onclick="tryAgain()">
             👥 Try someone else
           </button>
 
-          <button class="secondary-btn" onclick="swapNames()">
+          <button type="button" class="secondary-btn" onclick="swapNames()">
             🔁 See it the other way
           </button>
         </div>
@@ -869,6 +881,12 @@
       }, 10000);
 
       renderPremium();
+
+      if (scrollAfter) {
+        setTimeout(() => {
+          smoothScrollToEl(resultEl, 12);
+        }, 50);
+      }
     }
 
     function tryAgain() {
@@ -883,10 +901,11 @@
       resultEl.style.display = "none";
       resultEl.innerHTML = "";
 
-      document.getElementById("name2").scrollIntoView({
-        behavior: "smooth",
-        block: "center"
-      });
+      const target = document.getElementById("name2");
+      setTimeout(() => {
+        smoothScrollToEl(target, 140);
+        target.focus({ preventScroll: true });
+      }, 50);
     }
 
     function swapNames() {
@@ -909,15 +928,7 @@
       dob1.value = oldDob2;
       dob2.value = oldDob1;
 
-      compare();
-
-      setTimeout(() => {
-        const resultEl = document.getElementById("result");
-        resultEl.scrollIntoView({
-          behavior: "smooth",
-          block: "start"
-        });
-      }, 5200);
+      compare(true);
     }
 
     function feltAccurate() {
@@ -1170,9 +1181,9 @@ ${getShareUrl(source)}`;
             </div>
             <p class="small">Progress: ${shareCount}/${UNLOCK_TARGET} tracked shares</p>
 
-            <button onclick="shareWhatsApp()">Unlock free by sharing</button>
-            <button class="secondary-btn" onclick="handlePaymentClick()">Unlock instantly (£0.99)</button>
-            <button class="secondary-btn" onclick="copyViralLink()">🔗 Copy my viral link</button>
+            <button type="button" onclick="shareWhatsApp()">Unlock free by sharing</button>
+            <button type="button" class="secondary-btn" onclick="handlePaymentClick()">Unlock instantly (£0.99)</button>
+            <button type="button" class="secondary-btn" onclick="copyViralLink()">🔗 Copy my viral link</button>
 
             <div class="micro-hook">Track who comes from you 👀</div>
             <div class="micro-hook">WhatsApp, Facebook and Share count. Copy tracks visits only 😅</div>
