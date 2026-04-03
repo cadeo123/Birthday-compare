@@ -280,11 +280,11 @@
       <h2>Try it for yourself</h2>
       <p class="subtle">Enter two names and birthdays</p>
 
-      <input id="name1" placeholder="Your name" />
-      <input id="dob1" type="date" />
+      <input id="name1" placeholder="Your name" onfocus="trackInputStarted()" />
+      <input id="dob1" type="date" onfocus="trackInputStarted()" />
 
-      <input id="name2" placeholder="Their name" />
-      <input id="dob2" type="date" />
+      <input id="name2" placeholder="Their name" onfocus="trackInputStarted()" />
+      <input id="dob2" type="date" onfocus="trackInputStarted()" />
 
       <button onclick="compare()">See what it says 👀</button>
       <p class="tiny" style="margin-top:10px;">No signup. No download. Runs instantly in your browser.</p>
@@ -341,6 +341,9 @@
 
     let shareCount = parseInt(sessionStorage.getItem("shares") || "0", 10);
     let shareCooldowns = JSON.parse(sessionStorage.getItem("shareCooldowns") || '{"whatsapp":0,"native":0,"facebook":0}');
+    let inputStartedTracked = false;
+    let resultEngagementTimeout = null;
+    let premiumViewedLockedTracked = false;
 
     const UNLOCK_TARGET = 2;
     const COOLDOWN_MS = 10000;
@@ -387,6 +390,14 @@
       "Gemini-Libra": { score: 84, quote: "This match works best when the energy stays playful and open." },
       "Libra-Gemini": { score: 84, quote: "This match works best when the energy stays playful and open." }
     };
+
+    function trackInputStarted() {
+      if (inputStartedTracked) return;
+      inputStartedTracked = true;
+      track("input_started", {
+        current_user: userId
+      });
+    }
 
     function getSign(dateStr) {
       const d = new Date(dateStr);
@@ -565,9 +576,16 @@
     function resetCompareState() {
       shareCount = 0;
       shareCooldowns = { whatsapp: 0, native: 0, facebook: 0 };
+      premiumViewedLockedTracked = false;
+
       sessionStorage.setItem("shares", "0");
       sessionStorage.setItem("shareCooldowns", JSON.stringify(shareCooldowns));
       sessionStorage.removeItem("premiumTracked");
+
+      if (resultEngagementTimeout) {
+        clearTimeout(resultEngagementTimeout);
+        resultEngagementTimeout = null;
+      }
     }
 
     function calculateScore(s1, s2) {
@@ -724,6 +742,21 @@
         <div id="premiumBox"></div>
       `;
 
+      track("result_shown", {
+        score: r.score,
+        sign1: r.sign1.name,
+        sign2: r.sign2.name,
+        current_user: userId
+      });
+
+      if (resultEngagementTimeout) clearTimeout(resultEngagementTimeout);
+      resultEngagementTimeout = setTimeout(() => {
+        track("result_engagement_5s", {
+          score: r.score,
+          current_user: userId
+        });
+      }, 5000);
+
       renderPremium();
     }
 
@@ -806,6 +839,10 @@ ${getShareUrl(source)}`;
     }
 
     async function shareNative() {
+      track("share_intent", {
+        method: "native",
+        current_user: userId
+      });
       track("share_native_clicked", { current_user: userId });
 
       const text = getShareText("native");
@@ -833,6 +870,10 @@ ${getShareUrl(source)}`;
     }
 
     function shareWhatsApp() {
+      track("share_intent", {
+        method: "whatsapp",
+        current_user: userId
+      });
       track("share_whatsapp_clicked", { current_user: userId });
 
       const text = encodeURIComponent(getShareText("whatsapp"));
@@ -846,6 +887,10 @@ ${getShareUrl(source)}`;
     }
 
     function shareFacebook() {
+      track("share_intent", {
+        method: "facebook",
+        current_user: userId
+      });
       track("share_facebook_clicked", { current_user: userId });
 
       const shareUrl = encodeURIComponent(getShareUrl("facebook"));
@@ -859,6 +904,10 @@ ${getShareUrl(source)}`;
     }
 
     async function copyResult() {
+      track("share_intent", {
+        method: "copy",
+        current_user: userId
+      });
       track("copy_result_clicked", { current_user: userId });
 
       try {
@@ -910,6 +959,15 @@ ${getShareUrl(source)}`;
           </div>
         `;
       } else {
+        if (!premiumViewedLockedTracked) {
+          track("premium_viewed_locked", {
+            share_count: shareCount,
+            score: latestResult.score,
+            current_user: userId
+          });
+          premiumViewedLockedTracked = true;
+        }
+
         box.innerHTML = `
           <div class="premium-box">
             <div class="locked">⚠️ This is only part of the story.</div>
