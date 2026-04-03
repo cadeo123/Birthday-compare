@@ -812,11 +812,11 @@
           <div class="micro-hook">Most people try this with: their ex… then someone new 👀</div>
 
           <button class="secondary-btn" onclick="tryAgain()">
-            Try another person
+            👥 Try someone else
           </button>
 
           <button class="secondary-btn" onclick="swapNames()">
-            🔁 Swap names
+            🔁 See it the other way
           </button>
         </div>
 
@@ -866,7 +866,15 @@
 
       document.getElementById("name2").value = "";
       document.getElementById("dob2").value = "";
-      document.getElementById("result").style.display = "none";
+
+      const resultEl = document.getElementById("result");
+      resultEl.style.display = "none";
+      resultEl.innerHTML = "";
+
+      document.getElementById("name2").scrollIntoView({
+        behavior: "smooth",
+        block: "center"
+      });
     }
 
     function swapNames() {
@@ -879,10 +887,25 @@
       const dob1 = document.getElementById("dob1");
       const dob2 = document.getElementById("dob2");
 
-      [name1.value, name2.value] = [name2.value, name1.value];
-      [dob1.value, dob2.value] = [dob2.value, dob1.value];
+      const oldName1 = name1.value;
+      const oldName2 = name2.value;
+      const oldDob1 = dob1.value;
+      const oldDob2 = dob2.value;
+
+      name1.value = oldName2;
+      name2.value = oldName1;
+      dob1.value = oldDob2;
+      dob2.value = oldDob1;
 
       compare();
+
+      setTimeout(() => {
+        const resultEl = document.getElementById("result");
+        resultEl.scrollIntoView({
+          behavior: "smooth",
+          block: "start"
+        });
+      }, 5200);
     }
 
     function feltAccurate() {
