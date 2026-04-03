@@ -222,12 +222,42 @@
       }
     }
 
+    function getUserId() {
+      let id = localStorage.getItem("uid");
+      if (!id) {
+        id = "u_" + Math.random().toString(36).substring(2, 10);
+        localStorage.setItem("uid", id);
+        track("user_id_created", { user_id: id });
+      }
+      return id;
+    }
+
+    const userId = getUserId();
+
     const urlParams = new URLSearchParams(window.location.search);
     const refSource = urlParams.get("ref") || "direct";
-    track("page_view_with_ref", { source: refSource });
+    const refUser = urlParams.get("uid") || null;
+
+    track("page_view_with_ref", {
+      source: refSource,
+      current_user: userId,
+      ref_user: refUser || "none"
+    });
 
     if (refSource !== "direct") {
-      track("incoming_user", { source: refSource });
+      track("incoming_user", {
+        source: refSource,
+        current_user: userId,
+        ref_user: refUser || "none"
+      });
+    }
+
+    if (refUser && refUser !== userId) {
+      track("referral_visit", {
+        from_user: refUser,
+        to_user: userId,
+        source: refSource
+      });
     }
 
     let shareCount = parseInt(sessionStorage.getItem("shares") || "0", 10);
@@ -493,7 +523,7 @@
       sessionStorage.setItem("shares", "0");
       sessionStorage.removeItem("premiumTracked");
 
-      track("compare_clicked");
+      track("compare_clicked", { current_user: userId });
 
       const n1 = document.getElementById("name1").value.trim() || "Person 1";
       const n2 = document.getElementById("name2").value.trim() || "Person 2";
@@ -579,7 +609,7 @@
 
     function getShareUrl(source = "direct") {
       const baseUrl = window.location.origin + window.location.pathname;
-      return `${baseUrl}?ref=${encodeURIComponent(source)}`;
+      return `${baseUrl}?ref=${encodeURIComponent(source)}&uid=${encodeURIComponent(userId)}`;
     }
 
     function getShareText(source = "direct") {
@@ -601,12 +631,16 @@ ${getShareUrl(source)}`;
     function incrementShareCount(source) {
       shareCount += 1;
       sessionStorage.setItem("shares", String(shareCount));
-      track("share_count_incremented", { source, count: shareCount });
+      track("share_count_incremented", {
+        source,
+        count: shareCount,
+        current_user: userId
+      });
       renderPremium();
     }
 
     async function shareNative() {
-      track("share_native_clicked");
+      track("share_native_clicked", { current_user: userId });
 
       const text = getShareText("native");
       const url = getShareUrl("native");
@@ -620,7 +654,7 @@ ${getShareUrl(source)}`;
           });
           incrementShareCount("native");
         } catch (e) {
-          track("share_native_cancelled");
+          track("share_native_cancelled", { current_user: userId });
         }
       } else {
         alert("Use WhatsApp or Copy below 👇");
@@ -628,14 +662,14 @@ ${getShareUrl(source)}`;
     }
 
     function shareWhatsApp() {
-      track("share_whatsapp_clicked");
+      track("share_whatsapp_clicked", { current_user: userId });
       const text = encodeURIComponent(getShareText("whatsapp"));
       window.open(`https://wa.me/?text=${text}`, "_blank");
       incrementShareCount("whatsapp");
     }
 
     async function copyResult() {
-      track("copy_result_clicked");
+      track("copy_result_clicked", { current_user: userId });
 
       try {
         await navigator.clipboard.writeText(getShareText("copy"));
@@ -652,7 +686,7 @@ ${getShareUrl(source)}`;
 
       if (shareCount >= 5) {
         if (!sessionStorage.getItem("premiumTracked")) {
-          track("premium_unlocked");
+          track("premium_unlocked", { current_user: userId });
           sessionStorage.setItem("premiumTracked", "true");
         }
 
@@ -700,19 +734,19 @@ ${getShareUrl(source)}`;
             <div class="divider"></div>
 
             <p><b>Unlock full insight</b> by sharing with 5 people or unlock instantly.</p>
-            <p class="small">Progress: ${shareCount}/5 shares</p>
+            <p class="small">Progress: ${shareCount}/5 tracked shares</p>
 
             <button onclick="shareWhatsApp()">Unlock by sharing (fastest)</button>
             <button class="secondary-btn" onclick="fakeUnlock()">Unlock instantly for £0.99</button>
 
-            <div class="micro-hook">Send this to them… see what they say 😅</div>
+            <div class="micro-hook">Copying tracks visits, but only tracked shares unlock this 😅</div>
           </div>
         `;
       }
     }
 
     function fakeUnlock() {
-      track("clicked_unlock");
+      track("clicked_unlock", { current_user: userId });
       alert("Payment hook clicked — connect this to Stripe next.");
     }
   </script>
