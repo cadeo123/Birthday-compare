@@ -243,6 +243,27 @@
       font-size: 13px;
       color: rgba(255,255,255,0.55);
     }
+
+    .curiosity-break {
+      margin-top: 16px;
+      padding: 14px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .curiosity-title {
+      color: #ffb3c1;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .cta-copy {
+      margin-top: 12px;
+      font-size: 14px;
+      color: rgba(255,255,255,0.82);
+      line-height: 1.45;
+    }
   </style>
 </head>
 <body>
@@ -596,7 +617,7 @@
         if (i < messages.length && loaderText) {
           loaderText.innerText = messages[i];
         }
-      }, 700);
+      }, 1200);
 
       setTimeout(() => {
         clearInterval(interval);
@@ -638,7 +659,7 @@
         };
 
         renderResult();
-      }, 2200);
+      }, 5000);
     }
 
     function renderResult() {
@@ -647,6 +668,8 @@
       const r = latestResult;
       const resultEl = document.getElementById("result");
       resultEl.style.display = "block";
+
+      const teaser = getLockedTeaser(r.score, r.name1, r.name2);
 
       resultEl.innerHTML = `
         <div class="pair-name">${escapeHtml(r.name1)} ❤️ ${escapeHtml(r.name2)}</div>
@@ -679,11 +702,23 @@
         <div class="micro-hook">Be honest… this feels a bit too accurate, doesn’t it?</div>
         <div class="micro-hook">Most people send this to the person they tested 👀</div>
 
+        <div class="curiosity-break">
+          <div class="curiosity-title">${escapeHtml(teaser.title)}</div>
+          <p>${escapeHtml(teaser.emotional)}</p>
+          <p>${escapeHtml(teaser.communication)}</p>
+          <p><b>${escapeHtml(teaser.ending)}</b></p>
+        </div>
+
         <div class="result-actions">
           <button onclick="shareNative()">📤 Share result</button>
           <button onclick="shareWhatsApp()">🟢 Send via WhatsApp</button>
           <button onclick="shareFacebook()">🔵 Share to Facebook</button>
           <button class="secondary-btn" onclick="copyResult()">📋 Copy result</button>
+        </div>
+
+        <div class="cta-copy">
+          <b>See what this really means.</b><br>
+          Send this to 2 people to unlock the full insight.
         </div>
 
         <div id="premiumBox"></div>
@@ -875,21 +910,18 @@ ${getShareUrl(source)}`;
           </div>
         `;
       } else {
-        const teaser = getLockedTeaser(latestResult.score, latestResult.name1, latestResult.name2);
-
         box.innerHTML = `
           <div class="premium-box">
-            <div class="locked">${escapeHtml(teaser.title)}</div>
+            <div class="locked">⚠️ This is only part of the story.</div>
 
             <div class="section teaser">
-              <p>${escapeHtml(teaser.emotional)}</p>
-              <p>${escapeHtml(teaser.communication)}</p>
-              <p>${escapeHtml(teaser.ending)}</p>
+              <p>Most people don’t expect what this says next.</p>
+              <p>There’s a specific reason this connection feels like this.</p>
             </div>
 
             <div class="divider"></div>
 
-            <p><b>Send this to 2 people to unlock the full truth</b></p>
+            <p><b>Unlock what’s actually going on here</b></p>
             <p class="small">Progress: ${shareCount}/${UNLOCK_TARGET} tracked shares</p>
 
             <button onclick="shareWhatsApp()">Unlock free by sharing</button>
