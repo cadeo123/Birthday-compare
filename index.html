@@ -743,6 +743,7 @@
 
         <div class="micro-hook">Be honest… this feels a bit too accurate, doesn’t it?</div>
         <div class="micro-hook">Most people send this to the person they tested 👀</div>
+        <div class="micro-hook">Try this with your ex… it hits different.</div>
 
         <button class="ghost-btn" onclick="feltAccurate()">😳 That was accurate</button>
 
@@ -763,6 +764,21 @@
         <div class="cta-copy">
           <b>See what this really means.</b><br>
           Send this to 2 people to unlock the full insight.
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="section">
+          <div class="section-title">👀 Try another match</div>
+          <div class="micro-hook">Most people try this with 2–3 different people 👀</div>
+
+          <button class="secondary-btn" onclick="tryAgain()">
+            Try another person
+          </button>
+
+          <button class="secondary-btn" onclick="swapNames()">
+            🔁 Swap names
+          </button>
         </div>
 
         <div id="premiumBox"></div>
@@ -802,6 +818,32 @@
       }, 10000);
 
       renderPremium();
+    }
+
+    function tryAgain() {
+      track("loop_try_again", {
+        current_user: userId
+      });
+
+      document.getElementById("name2").value = "";
+      document.getElementById("dob2").value = "";
+      document.getElementById("result").style.display = "none";
+    }
+
+    function swapNames() {
+      track("loop_swap_names", {
+        current_user: userId
+      });
+
+      const name1 = document.getElementById("name1");
+      const name2 = document.getElementById("name2");
+      const dob1 = document.getElementById("dob1");
+      const dob2 = document.getElementById("dob2");
+
+      [name1.value, name2.value] = [name2.value, name1.value];
+      [dob1.value, dob2.value] = [dob2.value, dob1.value];
+
+      compare();
     }
 
     function feltAccurate() {
