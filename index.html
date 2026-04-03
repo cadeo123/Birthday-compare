@@ -281,6 +281,9 @@
       <p class="subtle">Find out what your connection really feels like.</p>
       <p class="tiny">Most people expect a random score… but sometimes it feels a little too real.</p>
       <p class="tiny" style="margin-top:8px;">People keep sending this to their ex 👀</p>
+
+      <button class="secondary-btn" onclick="copyViralLink()">🔗 Copy my viral link</button>
+      <p class="tiny">Share this anywhere and track who comes from you 👀</p>
     </div>
 
     <div class="card">
@@ -406,6 +409,21 @@
       track("input_started", {
         current_user: userId
       });
+    }
+
+    function copyViralLink() {
+      const viralLink = `${window.location.origin}${window.location.pathname}?ref=viral&uid=${userId}`;
+
+      navigator.clipboard.writeText(viralLink)
+        .then(() => {
+          track("viral_link_copied", {
+            current_user: userId
+          });
+          alert("Your viral link has been copied 🔥");
+        })
+        .catch(() => {
+          alert("Could not copy your viral link.");
+        });
     }
 
     function getSign(dateStr) {
