@@ -19,9 +19,29 @@
     body {
       margin: 0;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: linear-gradient(135deg, #090909, #131313 55%, #1a1020);
       color: #fff;
       padding: 20px;
+      background:
+        radial-gradient(circle at 20% 15%, rgba(255, 120, 180, 0.18), transparent 18%),
+        radial-gradient(circle at 78% 22%, rgba(180, 120, 255, 0.16), transparent 20%),
+        radial-gradient(circle at 30% 60%, rgba(120, 180, 255, 0.10), transparent 16%),
+        radial-gradient(circle at 72% 72%, rgba(255, 140, 200, 0.12), transparent 18%),
+        radial-gradient(circle at 50% 50%, rgba(255,255,255,0.035) 1px, transparent 1.5px),
+        radial-gradient(circle at 15% 35%, rgba(255,255,255,0.05) 1px, transparent 1.5px),
+        radial-gradient(circle at 82% 58%, rgba(255,255,255,0.04) 1px, transparent 1.5px),
+        radial-gradient(circle at 65% 18%, rgba(255,255,255,0.05) 1px, transparent 1.5px),
+        linear-gradient(180deg, #120a20 0%, #0d0a18 35%, #09090f 100%);
+      background-size:
+        auto,
+        auto,
+        auto,
+        auto,
+        180px 180px,
+        220px 220px,
+        260px 260px,
+        200px 200px,
+        auto;
+      background-attachment: fixed;
     }
 
     .container {
@@ -30,13 +50,15 @@
     }
 
     .card {
-      background: rgba(255,255,255,0.06);
-      backdrop-filter: blur(12px);
+      background: linear-gradient(180deg, rgba(255,255,255,0.07), rgba(255,255,255,0.045));
+      backdrop-filter: blur(14px);
       border: 1px solid rgba(255,255,255,0.10);
-      border-radius: 22px;
+      border-radius: 24px;
       padding: 18px;
       margin-bottom: 16px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+      box-shadow:
+        0 10px 30px rgba(0,0,0,0.28),
+        inset 0 1px 0 rgba(255,255,255,0.06);
     }
 
     h1, h2, h3, p { margin-top: 0; }
@@ -68,20 +90,25 @@
     }
 
     input {
-      background: #111;
+      background: rgba(17,17,17,0.92);
       color: #fff;
+      border: 1px solid rgba(255,255,255,0.06);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.03);
     }
 
     button {
       cursor: pointer;
       color: #fff;
       font-weight: 700;
+      border: 1px solid rgba(255,255,255,0.10);
       background: linear-gradient(90deg, #ff4d6d, #c77dff);
+      box-shadow: 0 8px 24px rgba(199,125,255,0.18);
     }
 
     .secondary-btn {
       background: rgba(255,255,255,0.08);
       border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: none;
     }
 
     .score {
@@ -153,8 +180,9 @@
       margin-top: 16px;
       padding: 14px;
       border-radius: 16px;
-      background: #111;
+      background: rgba(10,10,14,0.92);
       border: 1px solid rgba(255,255,255,0.07);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.03);
     }
 
     .premium-box p {
@@ -320,11 +348,6 @@
       "Gemini-Libra": { score: 84, quote: "This match works best when the energy stays playful and open." },
       "Libra-Gemini": { score: 84, quote: "This match works best when the energy stays playful and open." }
     };
-
-    const signOrder = [
-      "Aries","Taurus","Gemini","Cancer","Leo","Virgo",
-      "Libra","Scorpio","Sagittarius","Capricorn","Aquarius","Pisces"
-    ];
 
     function getSign(dateStr) {
       const d = new Date(dateStr);
@@ -512,9 +535,8 @@
       const key = `${s1.name}-${s2.name}`;
       if (specialPairs[key]?.score) return specialPairs[key].score;
 
-      let score = 60;
-
-      if (s1.element === s2.element) score += 12;
+      let val = 60;
+      if (s1.element === s2.element) val += 15;
 
       const supportive =
         (s1.element === "Water" && s2.element === "Earth") ||
@@ -522,29 +544,9 @@
         (s1.element === "Fire" && s2.element === "Air") ||
         (s1.element === "Air" && s2.element === "Fire");
 
-      if (supportive) score += 10;
+      if (supportive) val += 10;
 
-      const clashing =
-        (s1.element === "Fire" && s2.element === "Water") ||
-        (s1.element === "Water" && s2.element === "Fire") ||
-        (s1.element === "Air" && s2.element === "Earth") ||
-        (s1.element === "Earth" && s2.element === "Air");
-
-      if (clashing) score -= 8;
-
-      if (s1.name === s2.name) score += 6;
-
-      const i1 = signOrder.indexOf(s1.name);
-      const i2 = signOrder.indexOf(s2.name);
-      const diff = Math.abs(i1 - i2);
-      const circularDiff = Math.min(diff, 12 - diff);
-
-      if (circularDiff === 1) score -= 3;
-
-      if (score > 95) score = 95;
-      if (score < 42) score = 42;
-
-      return score;
+      return val;
     }
 
     function compare() {
