@@ -223,6 +223,15 @@
       }
     }
 
+    // Track source of incoming visit
+    const urlParams = new URLSearchParams(window.location.search);
+    const refSource = urlParams.get("ref") || "direct";
+    track("page_view_with_ref", { source: refSource });
+
+    if (refSource !== "direct") {
+      track("incoming_user", { source: refSource });
+    }
+
     let shareCount = parseInt(sessionStorage.getItem("shares") || "0", 10);
 
     const signs = [
@@ -581,8 +590,13 @@
       renderPremium();
     }
 
-    function getShareText() {
-      if (!latestResult) return window.location.href;
+    function getShareUrl(source = "direct") {
+      const baseUrl = window.location.origin + window.location.pathname;
+      return `${baseUrl}?ref=${encodeURIComponent(source)}`;
+    }
+
+    function getShareText(source = "direct") {
+      if (!latestResult) return getShareUrl(source);
 
       return `${latestResult.name1} ❤️ ${latestResult.name2}
 
@@ -594,7 +608,7 @@ ${latestResult.summary}
 "${latestResult.quote}"
 
 Try yours 👀
-${window.location.href}`;
+${getShareUrl(source)}`;
     }
 
     function incrementShareCount(source) {
@@ -607,14 +621,15 @@ ${window.location.href}`;
     async function shareNative() {
       track("share_native_clicked");
 
-      const text = getShareText();
+      const text = getShareText("native");
+      const url = getShareUrl("native");
 
       if (navigator.share) {
         try {
           await navigator.share({
             title: "Compatibility Result",
             text,
-            url: window.location.href
+            url
           });
           incrementShareCount("native");
         } catch (e) {
@@ -627,7 +642,7 @@ ${window.location.href}`;
 
     function shareWhatsApp() {
       track("share_whatsapp_clicked");
-      const text = encodeURIComponent(getShareText());
+      const text = encodeURIComponent(getShareText("whatsapp"));
       window.open(`https://wa.me/?text=${text}`, "_blank");
       incrementShareCount("whatsapp");
     }
@@ -636,7 +651,7 @@ ${window.location.href}`;
       track("copy_result_clicked");
 
       try {
-        await navigator.clipboard.writeText(getShareText());
+        await navigator.clipboard.writeText(getShareText("copy"));
         alert("Copied — paste it anywhere 🔥");
         incrementShareCount("copy");
       } catch (e) {
