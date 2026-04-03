@@ -223,7 +223,7 @@
       }
     }
 
-    let shareCount = parseInt(localStorage.getItem("shares") || "0", 10);
+    let shareCount = parseInt(sessionStorage.getItem("shares") || "0", 10);
 
     const signs = [
       { name:'Capricorn', start:[12,22], end:[1,19], element:'Earth' },
@@ -482,8 +482,8 @@
     let latestResult = null;
 
     function resetApp() {
-      localStorage.removeItem("shares");
-      localStorage.removeItem("premiumTracked");
+      sessionStorage.removeItem("shares");
+      sessionStorage.removeItem("premiumTracked");
       shareCount = 0;
       latestResult = null;
       document.getElementById("result").style.display = "none";
@@ -492,6 +492,11 @@
     }
 
     function compare() {
+      // Reset for every new search
+      shareCount = 0;
+      sessionStorage.setItem("shares", "0");
+      sessionStorage.removeItem("premiumTracked");
+
       track("compare_clicked");
 
       const n1 = document.getElementById("name1").value.trim() || "Person 1";
@@ -594,7 +599,7 @@ ${window.location.href}`;
 
     function incrementShareCount(source) {
       shareCount += 1;
-      localStorage.setItem("shares", String(shareCount));
+      sessionStorage.setItem("shares", String(shareCount));
       track("share_count_incremented", { source, count: shareCount });
       renderPremium();
     }
@@ -644,9 +649,9 @@ ${window.location.href}`;
       if (!box || !latestResult) return;
 
       if (shareCount >= 5) {
-        if (!localStorage.getItem("premiumTracked")) {
+        if (!sessionStorage.getItem("premiumTracked")) {
           track("premium_unlocked");
-          localStorage.setItem("premiumTracked", "true");
+          sessionStorage.setItem("premiumTracked", "true");
         }
 
         box.innerHTML = `
