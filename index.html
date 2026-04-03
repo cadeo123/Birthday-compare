@@ -271,6 +271,24 @@
       color: rgba(255,255,255,0.82);
       line-height: 1.45;
     }
+
+    .progress-wrap {
+      margin: 10px 0 6px;
+    }
+
+    .progress-track {
+      height: 6px;
+      background: rgba(255,255,255,0.12);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #ff4d6d, #c77dff);
+      transition: width 0.35s ease;
+    }
   </style>
 </head>
 <body>
@@ -281,9 +299,6 @@
       <p class="subtle">Find out what your connection really feels like.</p>
       <p class="tiny">Most people expect a random score… but sometimes it feels a little too real.</p>
       <p class="tiny" style="margin-top:8px;">People keep sending this to their ex 👀</p>
-
-      <button class="secondary-btn" onclick="copyViralLink()">🔗 Copy my viral link</button>
-      <p class="tiny">Share this anywhere and track who comes from you 👀</p>
     </div>
 
     <div class="card">
@@ -598,6 +613,10 @@
         .replaceAll("'", "&#039;");
     }
 
+    function getProgressPercent() {
+      return Math.min((shareCount / UNLOCK_TARGET) * 100, 100);
+    }
+
     let latestResult = null;
 
     function resetCompareState() {
@@ -772,11 +791,13 @@
           <p><b>${escapeHtml(teaser.ending)}</b></p>
         </div>
 
+        <div class="micro-hook">👀 Most people send this part… not the score</div>
+
         <div class="result-actions">
-          <button onclick="shareNative()">📤 Share result</button>
-          <button onclick="shareWhatsApp()">🟢 Send via WhatsApp</button>
-          <button onclick="shareFacebook()">🔵 Share to Facebook</button>
-          <button class="secondary-btn" onclick="copyResult()">📋 Copy result</button>
+          <button onclick="shareNative()">📤 Send this to them 👀</button>
+          <button onclick="shareWhatsApp()">🟢 Send on WhatsApp</button>
+          <button onclick="shareFacebook()">🔵 Post this on Facebook</button>
+          <button class="secondary-btn" onclick="copyResult()">📋 Copy & send</button>
         </div>
 
         <div class="cta-copy">
@@ -788,7 +809,7 @@
 
         <div class="section">
           <div class="section-title">👀 Try another match</div>
-          <div class="micro-hook">Most people try this with 2–3 different people 👀</div>
+          <div class="micro-hook">Most people try this with: their ex… then someone new 👀</div>
 
           <button class="secondary-btn" onclick="tryAgain()">
             Try another person
@@ -1106,11 +1127,19 @@ ${getShareUrl(source)}`;
             <div class="divider"></div>
 
             <p><b>Unlock what’s actually going on here</b></p>
+
+            <div class="progress-wrap">
+              <div class="progress-track">
+                <div class="progress-fill" style="width:${getProgressPercent()}%;"></div>
+              </div>
+            </div>
             <p class="small">Progress: ${shareCount}/${UNLOCK_TARGET} tracked shares</p>
 
             <button onclick="shareWhatsApp()">Unlock free by sharing</button>
             <button class="secondary-btn" onclick="handlePaymentClick()">Unlock instantly (£0.99)</button>
+            <button class="secondary-btn" onclick="copyViralLink()">🔗 Copy my viral link</button>
 
+            <div class="micro-hook">Track who comes from you 👀</div>
             <div class="micro-hook">WhatsApp, Facebook and Share count. Copy tracks visits only 😅</div>
           </div>
         `;
