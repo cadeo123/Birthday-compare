@@ -479,6 +479,42 @@
       };
     }
 
+    function getLockedTeaser(score, n1, n2) {
+      if (score >= 90) {
+        return {
+          title: "⚠️ There’s a deeper reason this feels so strong…",
+          emotional: `❤️ Emotional: ${n1} and ${n2} are likely feeling more than they openly admit`,
+          communication: `🧠 Communication: One of you understands this connection faster than the other`,
+          ending: "The deeper reason this feels so intense is hidden below 👇"
+        };
+      }
+
+      if (score >= 80) {
+        return {
+          title: "⚠️ There’s more going on here than it first seems…",
+          emotional: `❤️ Emotional: There’s a real connection here, but it may not feel equally expressed`,
+          communication: `🧠 Communication: This works best when neither of you avoids clarity`,
+          ending: "The real issue shaping this connection is hidden below 👇"
+        };
+      }
+
+      if (score >= 70) {
+        return {
+          title: "⚠️ This connection has more tension than it looks…",
+          emotional: `❤️ Emotional: One of you may be taking this more seriously underneath`,
+          communication: `🧠 Communication: Mixed signals could become the main problem here`,
+          ending: "What’s really holding this back is hidden below 👇"
+        };
+      }
+
+      return {
+        title: "⚠️ There’s a reason this feels slightly off…",
+        emotional: `❤️ Emotional: The connection is there, but it may not feel balanced`,
+        communication: `🧠 Communication: One of you may want more certainty than the other gives`,
+        ending: "The real reason this feels inconsistent is hidden below 👇"
+      };
+    }
+
     function escapeHtml(str) {
       return str
         .replaceAll("&", "&amp;")
@@ -781,14 +817,16 @@ ${getShareUrl(source)}`;
           </div>
         `;
       } else {
+        const teaser = getLockedTeaser(latestResult.score, latestResult.name1, latestResult.name2);
+
         box.innerHTML = `
           <div class="premium-box">
-            <div class="locked">⚠️ There’s more to this…</div>
+            <div class="locked">${teaser.title}</div>
 
             <div class="section teaser">
-              <p>❤️ Emotional: Strong… but unbalanced</p>
-              <p>🧠 Communication: Looks fine on the surface</p>
-              <p>The real insight shows what actually happens between you.</p>
+              <p>${teaser.emotional}</p>
+              <p>${teaser.communication}</p>
+              <p>${teaser.ending}</p>
             </div>
 
             <div class="divider"></div>
