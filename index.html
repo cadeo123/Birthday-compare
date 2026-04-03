@@ -111,6 +111,13 @@
       box-shadow: none;
     }
 
+    .ghost-btn {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: none;
+      font-weight: 600;
+    }
+
     .score {
       font-size: 54px;
       font-weight: 800;
@@ -342,8 +349,10 @@
     let shareCount = parseInt(sessionStorage.getItem("shares") || "0", 10);
     let shareCooldowns = JSON.parse(sessionStorage.getItem("shareCooldowns") || '{"whatsapp":0,"native":0,"facebook":0}');
     let inputStartedTracked = false;
-    let resultEngagementTimeout = null;
+    let resultEngagementTimeout5 = null;
+    let resultEngagementTimeout10 = null;
     let premiumViewedLockedTracked = false;
+    let compareCount = parseInt(sessionStorage.getItem("compare_count") || "0", 10);
 
     const UNLOCK_TARGET = 2;
     const COOLDOWN_MS = 10000;
@@ -582,9 +591,14 @@
       sessionStorage.setItem("shareCooldowns", JSON.stringify(shareCooldowns));
       sessionStorage.removeItem("premiumTracked");
 
-      if (resultEngagementTimeout) {
-        clearTimeout(resultEngagementTimeout);
-        resultEngagementTimeout = null;
+      if (resultEngagementTimeout5) {
+        clearTimeout(resultEngagementTimeout5);
+        resultEngagementTimeout5 = null;
+      }
+
+      if (resultEngagementTimeout10) {
+        clearTimeout(resultEngagementTimeout10);
+        resultEngagementTimeout10 = null;
       }
     }
 
@@ -609,6 +623,16 @@
     function compare() {
       resetCompareState();
       track("compare_clicked", { current_user: userId });
+
+      compareCount += 1;
+      sessionStorage.setItem("compare_count", String(compareCount));
+
+      if (compareCount > 1) {
+        track("compare_repeat", {
+          current_user: userId,
+          compare_count: compareCount
+        });
+      }
 
       const resultEl = document.getElementById("result");
       resultEl.style.display = "block";
@@ -720,6 +744,8 @@
         <div class="micro-hook">Be honest… this feels a bit too accurate, doesn’t it?</div>
         <div class="micro-hook">Most people send this to the person they tested 👀</div>
 
+        <button class="ghost-btn" onclick="feltAccurate()">😳 That was accurate</button>
+
         <div class="curiosity-break">
           <div class="curiosity-title">${escapeHtml(teaser.title)}</div>
           <p>${escapeHtml(teaser.emotional)}</p>
@@ -749,15 +775,43 @@
         current_user: userId
       });
 
-      if (resultEngagementTimeout) clearTimeout(resultEngagementTimeout);
-      resultEngagementTimeout = setTimeout(() => {
+      if (r.score >= 85) {
+        track("high_score_result", {
+          score: r.score,
+          sign1: r.sign1.name,
+          sign2: r.sign2.name,
+          current_user: userId
+        });
+      }
+
+      if (resultEngagementTimeout5) clearTimeout(resultEngagementTimeout5);
+      if (resultEngagementTimeout10) clearTimeout(resultEngagementTimeout10);
+
+      resultEngagementTimeout5 = setTimeout(() => {
         track("result_engagement_5s", {
           score: r.score,
           current_user: userId
         });
       }, 5000);
 
+      resultEngagementTimeout10 = setTimeout(() => {
+        track("result_engagement_10s", {
+          score: r.score,
+          current_user: userId
+        });
+      }, 10000);
+
       renderPremium();
+    }
+
+    function feltAccurate() {
+      if (!latestResult) return;
+      track("felt_accurate", {
+        score: latestResult.score,
+        sign1: latestResult.sign1.name,
+        sign2: latestResult.sign2.name,
+        current_user: userId
+      });
     }
 
     function getShareUrl(source = "direct") {
@@ -918,6 +972,18 @@ ${getShareUrl(source)}`;
       }
     }
 
+    function handlePaymentClick() {
+      if (!latestResult) return;
+      track("payment_click", {
+        current_user: userId,
+        price: 0.99,
+        currency: "GBP",
+        score: latestResult.score,
+        share_count: shareCount
+      });
+      alert("Payment hook clicked — connect this to Stripe next.");
+    }
+
     function renderPremium() {
       const box = document.getElementById("premiumBox");
       if (!box || !latestResult) return;
@@ -983,17 +1049,12 @@ ${getShareUrl(source)}`;
             <p class="small">Progress: ${shareCount}/${UNLOCK_TARGET} tracked shares</p>
 
             <button onclick="shareWhatsApp()">Unlock free by sharing</button>
-            <button class="secondary-btn" onclick="fakeUnlock()">Unlock instantly (£0.99)</button>
+            <button class="secondary-btn" onclick="handlePaymentClick()">Unlock instantly (£0.99)</button>
 
             <div class="micro-hook">WhatsApp, Facebook and Share count. Copy tracks visits only 😅</div>
           </div>
         `;
       }
-    }
-
-    function fakeUnlock() {
-      track("clicked_unlock", { current_user: userId });
-      alert("Payment hook clicked — connect this to Stripe next.");
     }
   </script>
 </body>
