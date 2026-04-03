@@ -208,6 +208,7 @@
       <input id="dob2" type="date" />
 
       <button onclick="compare()">Check compatibility</button>
+      <button class="secondary-btn" onclick="resetApp()">Reset test data</button>
       <p class="tiny" style="margin-top:10px;">Tip: this gets the best reactions when you send the result to the person you tested 😅</p>
     </div>
 
@@ -479,6 +480,16 @@
     }
 
     let latestResult = null;
+
+    function resetApp() {
+      localStorage.removeItem("shares");
+      localStorage.removeItem("premiumTracked");
+      shareCount = 0;
+      latestResult = null;
+      document.getElementById("result").style.display = "none";
+      track("reset_clicked");
+      alert("Test data reset.");
+    }
 
     function compare() {
       track("compare_clicked");
