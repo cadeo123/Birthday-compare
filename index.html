@@ -631,17 +631,42 @@
     function getShareText(source = "direct") {
       if (!latestResult) return getShareUrl(source);
 
-      return `${latestResult.name1} ❤️ ${latestResult.name2}
+      let text = `${latestResult.name1} ❤️ ${latestResult.name2}
 
 ${latestResult.score}% compatibility
 ${label(latestResult.score)}
 
 ${latestResult.summary}
 
-"${latestResult.quote}"
+"${latestResult.quote}"`;
+
+      if (shareCount >= UNLOCK_TARGET) {
+        text += `
+
+✅ Full compatibility insight unlocked
+
+❤️ Emotional
+${latestResult.premium.emotional}
+
+🧠 Communication
+${latestResult.premium.communication}
+
+⚠️ Main challenge
+${latestResult.premium.challenge}
+
+🔥 Attraction
+${latestResult.premium.attraction}
+
+⏳ Long-term
+${latestResult.premium.longTerm}`;
+      }
+
+      text += `
 
 Try yours 👀
 ${getShareUrl(source)}`;
+
+      return text;
     }
 
     function canCountShare(method) {
