@@ -304,141 +304,45 @@
     const specialPairs = {
       "Cancer-Pisces": {
         score: 90,
-        summary: "This is one of those rare emotional connections where both people naturally understand each other. It usually feels soft, deep, and hard to fake.",
-        quote: "You don’t have to explain your feelings here — they’re already felt.",
-        premium: {
-          emotional: "Very strong emotional pull. One person tends to feel safe here, the other feels deeply understood.",
-          communication: "Usually intuitive, but silence can create overthinking if feelings are not said out loud.",
-          challenge: "This pair can get overwhelmed by emotion and avoid saying the harder thing directly.",
-          attraction: "High. It often feels comforting and magnetic at the same time.",
-          longTerm: "Strong long-term potential when both stay honest and don’t expect mind-reading."
-        }
+        quote: "You don’t have to explain your feelings here — they’re already felt."
       },
       "Pisces-Cancer": {
         score: 90,
-        summary: "A deeply intuitive bond that feels safe, emotional, and naturally aligned. This usually feels more serious than it looks from the outside.",
-        quote: "This feels like comfort, connection, and something hard to replace.",
-        premium: {
-          emotional: "This pairing tends to create a strong emotional cocoon around both people.",
-          communication: "Easy when both are open, messy when one retreats into mood or silence.",
-          challenge: "Avoiding conflict can become the real problem here.",
-          attraction: "Warm, intimate, and emotionally sticky.",
-          longTerm: "Very good if both create reassurance instead of assumptions."
-        }
+        quote: "This feels like comfort, connection, and something hard to replace."
       },
       "Scorpio-Cancer": {
         score: 92,
-        summary: "This pairing can feel intense, loyal, and emotionally powerful. When it works, it feels unforgettable.",
-        quote: "This connection runs deep — not surface level.",
-        premium: {
-          emotional: "Very deep emotional intensity. Loyalty can become a major strength here.",
-          communication: "Strong when trust is present, guarded when hurt appears.",
-          challenge: "Jealousy, secrecy, or emotional defensiveness can throw this off fast.",
-          attraction: "Very high chemistry. This usually feels strong from the start.",
-          longTerm: "Excellent potential if both handle intensity maturely."
-        }
+        quote: "This connection runs deep — not surface level."
       },
       "Cancer-Scorpio": {
         score: 92,
-        summary: "This pairing can feel intense, loyal, and emotionally powerful. It can become very real, very fast.",
-        quote: "This connection runs deep — not surface level.",
-        premium: {
-          emotional: "One of the strongest emotional match types when trust builds properly.",
-          communication: "Deep conversations happen naturally, but emotional walls can slow things down.",
-          challenge: "Control and protectiveness can create friction.",
-          attraction: "High magnetic pull, often hard to ignore.",
-          longTerm: "Great long-term potential when both stop testing each other emotionally."
-        }
+        quote: "This connection runs deep — not surface level."
       },
       "Leo-Aries": {
         score: 88,
-        summary: "High energy, strong attraction, and a powerful dynamic. This usually feels exciting, bold, and hard to ignore.",
-        quote: "Fire meets fire — intense, exciting, and never boring.",
-        premium: {
-          emotional: "This is less soft and more energising. The connection feels alive.",
-          communication: "Direct, fast, and sometimes blunt.",
-          challenge: "Ego clashes or competition can become the issue.",
-          attraction: "Very high. Chemistry often shows up quickly.",
-          longTerm: "Strong if both admire rather than compete with each other."
-        }
+        quote: "Fire meets fire — intense, exciting, and never boring."
       },
       "Aries-Leo": {
         score: 88,
-        summary: "High energy, strong attraction, and a powerful dynamic. When this clicks, it feels electric.",
-        quote: "Fire meets fire — intense, exciting, and never boring.",
-        premium: {
-          emotional: "This match runs more on energy and confidence than soft reassurance.",
-          communication: "Fast and bold, but sometimes too reactive.",
-          challenge: "Both may want to lead.",
-          attraction: "High. There is usually a visible spark.",
-          longTerm: "Works well when respect stays higher than pride."
-        }
+        quote: "Fire meets fire — intense, exciting, and never boring."
       },
       "Taurus-Virgo": {
         score: 85,
-        summary: "A grounded, steady pairing with strong long-term potential. This usually feels dependable rather than chaotic.",
-        quote: "This works because both of you value consistency and loyalty.",
-        premium: {
-          emotional: "Steady and reliable. This grows stronger with time.",
-          communication: "Practical and calm, though feelings may need more direct expression.",
-          challenge: "Routine can become dull if neither brings freshness.",
-          attraction: "Subtle but real. This often deepens instead of exploding.",
-          longTerm: "Very strong when both keep showing up consistently."
-        }
+        quote: "This works because both of you value consistency and loyalty."
       },
       "Virgo-Taurus": {
         score: 85,
-        summary: "A grounded, steady pairing with strong long-term potential. This often feels safe and buildable.",
-        quote: "This works because both of you value consistency and loyalty.",
-        premium: {
-          emotional: "Less dramatic, more secure.",
-          communication: "Clear and useful, but emotional softness needs effort.",
-          challenge: "Overthinking and stubbornness can create small repeated tension.",
-          attraction: "Slow burn, usually stronger than it first looks.",
-          longTerm: "Very solid if both avoid becoming too rigid."
-        }
+        quote: "This works because both of you value consistency and loyalty."
       },
       "Gemini-Libra": {
         score: 84,
-        summary: "A light, social, and naturally flowing connection with easy conversation. This often feels easy right away.",
-        quote: "This match works best when the energy stays playful and open.",
-        premium: {
-          emotional: "This pair connects through vibe, banter, and mental flow.",
-          communication: "One of the easiest communication styles overall.",
-          challenge: "Depth can be dodged if both stay too surface-level.",
-          attraction: "Fun and flirt-heavy.",
-          longTerm: "Good when playfulness is matched by real substance."
-        }
+        quote: "This match works best when the energy stays playful and open."
       },
       "Libra-Gemini": {
         score: 84,
-        summary: "A light, social, and naturally flowing connection with easy conversation. This usually starts easy and stays interesting.",
-        quote: "This match works best when the energy stays playful and open.",
-        premium: {
-          emotional: "This connection is often more mental first, emotional second.",
-          communication: "Very strong. This pair rarely runs out of things to say.",
-          challenge: "Avoidance of heavier feelings can weaken the bond over time.",
-          attraction: "Playful and naturally magnetic.",
-          longTerm: "Good if both move beyond charm into honesty."
-        }
+        quote: "This match works best when the energy stays playful and open."
       }
     };
-
-    const fallbackSummaries = [
-      "There’s something here, but how strong it gets depends on communication, timing, and whether both people are actually honest.",
-      "This connection has potential, but one person may feel more than the other at first.",
-      "There’s attraction here, but differences in style or emotional pace may need patience.",
-      "This can work surprisingly well, but only if both people stop guessing and start communicating.",
-      "This pairing can feel strong in the moment, but consistency decides whether it becomes something real."
-    ];
-
-    const fallbackQuotes = [
-      "Be honest… this feels accurate, doesn’t it?",
-      "Some connections grow stronger the moment both people stop pretending.",
-      "Potential is here — what happens next depends on effort.",
-      "This could go very right… or get messy fast.",
-      "Sometimes the strongest matches still need the clearest communication."
-    ];
 
     function getSign(dateStr) {
       const d = new Date(dateStr);
@@ -489,30 +393,89 @@
       return "❌ Low Compatibility";
     }
 
-    function buildFallbackResult(sign1, sign2) {
-      let score = 60;
+    function getSummary(score, s1, s2, n1, n2) {
+      const name1 = n1 || "One of you";
+      const name2 = n2 || "the other";
 
-      if (sign1.element === sign2.element) score += 15;
+      if (score >= 90) {
+        return `${name1} and ${name2} have a rare kind of connection — it feels natural, intense, and hard to ignore. But even strong matches like this can struggle if one of you pulls away emotionally.`;
+      }
 
-      const supportive =
-        (sign1.element === "Water" && sign2.element === "Earth") ||
-        (sign1.element === "Earth" && sign2.element === "Water") ||
-        (sign1.element === "Fire" && sign2.element === "Air") ||
-        (sign1.element === "Air" && sign2.element === "Fire");
+      if (score >= 80) {
+        return `There’s a strong pull between ${name1} and ${name2}. One of you seems more emotionally invested, while the other keeps things more controlled — that balance is what defines this connection.`;
+      }
 
-      if (supportive) score += 10;
+      if (score >= 70) {
+        return `${name1} and ${name2} connect easily, but this isn’t effortless. There are moments where one of you understands deeply, while the other hesitates or overthinks.`;
+      }
+
+      if (score >= 60) {
+        return `This connection between ${name1} and ${name2} feels mixed — part of it works naturally, but part of it feels slightly off. One of you may feel more than they admit.`;
+      }
+
+      if (score >= 50) {
+        return `There’s something between ${name1} and ${name2}, but it doesn’t fully align. One of you may want clarity, while the other avoids defining things.`;
+      }
+
+      return `${name1} and ${name2} have very different energies. There may be attraction, but long-term this would feel difficult to maintain without real effort.`;
+    }
+
+    function getSignInsight(s1, s2, n1, n2) {
+      return `${n1} (${s1.name}) tends to approach things in a ${s1.element.toLowerCase()}-driven way, while ${n2} (${s2.name}) brings a ${s2.element.toLowerCase()} energy. That difference is what creates both the attraction… and the tension.`;
+    }
+
+    function getQuote(score, s1, s2) {
+      const specialKey = `${s1.name}-${s2.name}`;
+      if (specialPairs[specialKey]?.quote) return specialPairs[specialKey].quote;
+
+      const quotes = [
+        "This doesn’t feel random — there’s a pattern here.",
+        "Some connections feel simple. This one feels layered.",
+        "There’s more being felt here than is being said.",
+        "This kind of dynamic tends to repeat itself… unless something changes.",
+        "It’s not just about compatibility — it’s about timing."
+      ];
+
+      return quotes[Math.floor(Math.random() * quotes.length)];
+    }
+
+    function getPremiumInsight(n1, n2, s1, s2, score) {
+      if (score >= 90) {
+        return {
+          emotional: `${n1} and ${n2} are likely to feel this connection strongly and quickly. One of you may soften first, while the other takes longer to fully trust it.`,
+          communication: `${n1} and ${n2} can understand each other deeply, but silence or mood shifts may create confusion if things are left unsaid.`,
+          challenge: `The biggest issue here is emotional intensity — if either ${n1} or ${n2} pulls back without explaining, the other will feel it immediately.`,
+          attraction: `There’s a very strong pull here. This usually feels hard to ignore, even when one of you tries to act normal.`,
+          longTerm: `This could become something genuinely meaningful if both ${n1} and ${n2} stay emotionally honest instead of expecting the other to just “know”.`
+        };
+      }
+
+      if (score >= 80) {
+        return {
+          emotional: `${n1} and ${n2} clearly affect each other. One of you feels more openly, while the other keeps more control on the surface.`,
+          communication: `This works best when ${n1} and ${n2} are direct. Otherwise, mixed signals can build without either of you meaning to.`,
+          challenge: `The imbalance here is subtle — one may lean in emotionally while the other keeps things measured.`,
+          attraction: `There’s a strong natural chemistry between ${n1} and ${n2}. That’s what keeps this dynamic alive.`,
+          longTerm: `This has strong potential, but only if both of you stay consistent and don’t rely on guessing what the other means.`
+        };
+      }
+
+      if (score >= 70) {
+        return {
+          emotional: `${n1} and ${n2} connect, but not always at the same pace. One of you may take things more seriously underneath.`,
+          communication: `There are moments where ${n1} wants clarity, while ${n2} may hesitate, delay, or overthink.`,
+          challenge: `The biggest issue is inconsistency — this can feel close one moment and uncertain the next.`,
+          attraction: `There is enough chemistry here to keep the connection active, especially if both are honest about what they want.`,
+          longTerm: `This could build into something solid, but only if both ${n1} and ${n2} put effort into clarity and follow-through.`
+        };
+      }
 
       return {
-        score,
-        summary: fallbackSummaries[Math.floor(Math.random() * fallbackSummaries.length)],
-        quote: fallbackQuotes[Math.floor(Math.random() * fallbackQuotes.length)],
-        premium: {
-          emotional: "There is emotional potential here, but one of you may need more reassurance than the other expects.",
-          communication: "This works better when feelings are said clearly instead of implied.",
-          challenge: "The main issue is usually timing, assumptions, or different emotional pace.",
-          attraction: "There is enough spark here to build on, but the strength varies by effort.",
-          longTerm: "Possible, but it depends more on consistency than instant chemistry."
-        }
+        emotional: `${n1} and ${n2} do have a connection, but one of you is likely feeling more than they openly show.`,
+        communication: `This works better when feelings are said clearly instead of implied.`,
+        challenge: `The main issue here is mismatch — timing, intention, or emotional pace may not fully line up.`,
+        attraction: `There is still a pull between ${n1} and ${n2}, but it may not feel equally steady on both sides.`,
+        longTerm: `Possible, but only if both of you stop assuming and start being clearer about what this actually is.`
       };
     }
 
@@ -559,7 +522,19 @@
       }
 
       const key = `${s1.name}-${s2.name}`;
-      const pairResult = specialPairs[key] || buildFallbackResult(s1, s2);
+      const score = specialPairs[key]?.score ?? (() => {
+        let val = 60;
+        if (s1.element === s2.element) val += 15;
+
+        const supportive =
+          (s1.element === "Water" && s2.element === "Earth") ||
+          (s1.element === "Earth" && s2.element === "Water") ||
+          (s1.element === "Fire" && s2.element === "Air") ||
+          (s1.element === "Air" && s2.element === "Fire");
+
+        if (supportive) val += 10;
+        return val;
+      })();
 
       latestResult = {
         name1: n1,
@@ -568,10 +543,11 @@
         sign2: s2,
         stone1: getBirthstone(d1),
         stone2: getBirthstone(d2),
-        score: pairResult.score,
-        summary: pairResult.summary,
-        quote: pairResult.quote,
-        premium: pairResult.premium
+        score,
+        summary: getSummary(score, s1, s2, n1, n2),
+        signInsight: getSignInsight(s1, s2, n1, n2),
+        quote: getQuote(score, s1, s2),
+        premium: getPremiumInsight(n1, n2, s1, s2, score)
       };
 
       renderResult();
@@ -603,6 +579,11 @@
         <div class="section">
           <div class="section-title">What this feels like</div>
           <div class="summary"><b>${r.summary}</b></div>
+        </div>
+
+        <div class="section">
+          <div class="section-title">Energy dynamic</div>
+          <div class="summary">${r.signInsight}</div>
         </div>
 
         <div class="quote">"${r.quote}"</div>
@@ -637,6 +618,8 @@ ${latestResult.score}% compatibility
 ${label(latestResult.score)}
 
 ${latestResult.summary}
+
+${latestResult.signInsight}
 
 "${latestResult.quote}"`;
 
@@ -769,7 +752,7 @@ ${getShareUrl(source)}`;
 
         box.innerHTML = `
           <div class="premium-box">
-            <div class="success">✅ Full compatibility insight unlocked</div>
+            <div class="success">✅ What this really means:</div>
 
             <div class="section">
               <div class="section-title">❤️ Emotional</div>
@@ -800,17 +783,17 @@ ${getShareUrl(source)}`;
       } else {
         box.innerHTML = `
           <div class="premium-box">
-            <div class="locked">⚠️ There’s something you’re not seeing...</div>
+            <div class="locked">⚠️ There’s more to this…</div>
 
             <div class="section teaser">
               <p>❤️ Emotional: Strong… but unbalanced</p>
               <p>🧠 Communication: Looks fine on the surface</p>
-              <p>The real issue is hidden below 👇</p>
+              <p>The real insight shows what actually happens between you.</p>
             </div>
 
             <div class="divider"></div>
 
-            <p><b>Unlock full insight</b> with 2 tracked shares or unlock instantly.</p>
+            <p><b>Send this to 2 people to unlock the full truth</b></p>
             <p class="small">Progress: ${shareCount}/${UNLOCK_TARGET} tracked shares</p>
 
             <button onclick="shareWhatsApp()">Unlock by sharing (fastest)</button>
