@@ -190,6 +190,11 @@
       color: rgba(255,255,255,0.56);
       line-height: 1.4;
     }
+
+    .small {
+      font-size: 13px;
+      color: rgba(255,255,255,0.68);
+    }
   </style>
 </head>
 <body>
@@ -261,6 +266,10 @@
     }
 
     let shareCount = parseInt(sessionStorage.getItem("shares") || "0", 10);
+    let shareCooldowns = JSON.parse(sessionStorage.getItem("shareCooldowns") || '{"whatsapp":0,"native":0,"facebook":0}');
+
+    const UNLOCK_TARGET = 2;
+    const COOLDOWN_MS = 10000;
 
     const signs = [
       { name:'Capricorn', start:[12,22], end:[1,19], element:'Earth' },
@@ -518,10 +527,16 @@
 
     let latestResult = null;
 
-    function compare() {
+    function resetCompareState() {
       shareCount = 0;
+      shareCooldowns = { whatsapp: 0, native: 0, facebook: 0 };
       sessionStorage.setItem("shares", "0");
+      sessionStorage.setItem("shareCooldowns", JSON.stringify(shareCooldowns));
       sessionStorage.removeItem("premiumTracked");
+    }
+
+    function compare() {
+      resetCompareState();
 
       track("compare_clicked", { current_user: userId });
 
@@ -598,6 +613,7 @@
         <div class="result-actions">
           <button onclick="shareNative()">📤 Share result</button>
           <button onclick="shareWhatsApp()">🟢 Send via WhatsApp</button>
+          <button onclick="shareFacebook()">🔵 Share to Facebook</button>
           <button class="secondary-btn" onclick="copyResult()">📋 Copy result</button>
         </div>
 
@@ -628,15 +644,28 @@ Try yours 👀
 ${getShareUrl(source)}`;
     }
 
-    function incrementShareCount(source) {
+    function canCountShare(method) {
+      const now = Date.now();
+      const lastTime = shareCooldowns[method] || 0;
+      return (now - lastTime) >= COOLDOWN_MS;
+    }
+
+    function markShare(method) {
+      shareCooldowns[method] = Date.now();
+      sessionStorage.setItem("shareCooldowns", JSON.stringify(shareCooldowns));
       shareCount += 1;
       sessionStorage.setItem("shares", String(shareCount));
       track("share_count_incremented", {
-        source,
+        source: method,
         count: shareCount,
         current_user: userId
       });
       renderPremium();
+    }
+
+    function handleCooldownBlocked(method) {
+      track("share_cooldown_blocked", { source: method, current_user: userId });
+      alert("Give it 10 seconds before counting another share on that button.");
     }
 
     async function shareNative() {
@@ -652,20 +681,44 @@ ${getShareUrl(source)}`;
             text,
             url
           });
-          incrementShareCount("native");
+
+          if (canCountShare("native")) {
+            markShare("native");
+          } else {
+            handleCooldownBlocked("native");
+          }
         } catch (e) {
           track("share_native_cancelled", { current_user: userId });
         }
       } else {
-        alert("Use WhatsApp or Copy below 👇");
+        alert("Use WhatsApp, Facebook or Copy below 👇");
       }
     }
 
     function shareWhatsApp() {
       track("share_whatsapp_clicked", { current_user: userId });
+
       const text = encodeURIComponent(getShareText("whatsapp"));
       window.open(`https://wa.me/?text=${text}`, "_blank");
-      incrementShareCount("whatsapp");
+
+      if (canCountShare("whatsapp")) {
+        markShare("whatsapp");
+      } else {
+        handleCooldownBlocked("whatsapp");
+      }
+    }
+
+    function shareFacebook() {
+      track("share_facebook_clicked", { current_user: userId });
+
+      const shareUrl = encodeURIComponent(getShareUrl("facebook"));
+      window.open(`https://www.facebook.com/sharer/sharer.php?u=${shareUrl}`, "_blank");
+
+      if (canCountShare("facebook")) {
+        markShare("facebook");
+      } else {
+        handleCooldownBlocked("facebook");
+      }
     }
 
     async function copyResult() {
@@ -674,7 +727,6 @@ ${getShareUrl(source)}`;
       try {
         await navigator.clipboard.writeText(getShareText("copy"));
         alert("Copied — paste it anywhere 🔥");
-        // Intentionally no shareCount increment here
       } catch (e) {
         alert("Copy failed on this device.");
       }
@@ -684,7 +736,7 @@ ${getShareUrl(source)}`;
       const box = document.getElementById("premiumBox");
       if (!box || !latestResult) return;
 
-      if (shareCount >= 5) {
+      if (shareCount >= UNLOCK_TARGET) {
         if (!sessionStorage.getItem("premiumTracked")) {
           track("premium_unlocked", { current_user: userId });
           sessionStorage.setItem("premiumTracked", "true");
@@ -733,13 +785,13 @@ ${getShareUrl(source)}`;
 
             <div class="divider"></div>
 
-            <p><b>Unlock full insight</b> by sharing with 5 people or unlock instantly.</p>
-            <p class="small">Progress: ${shareCount}/5 tracked shares</p>
+            <p><b>Unlock full insight</b> with 2 tracked shares or unlock instantly.</p>
+            <p class="small">Progress: ${shareCount}/${UNLOCK_TARGET} tracked shares</p>
 
             <button onclick="shareWhatsApp()">Unlock by sharing (fastest)</button>
             <button class="secondary-btn" onclick="fakeUnlock()">Unlock instantly for £0.99</button>
 
-            <div class="micro-hook">Copying tracks visits, but only tracked shares unlock this 😅</div>
+            <div class="micro-hook">WhatsApp, Facebook and Share count. Copy tracks visits only 😅</div>
           </div>
         `;
       }
