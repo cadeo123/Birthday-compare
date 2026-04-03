@@ -3,9 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Birthday Compare</title>
+  <title>This exposed our compatibility 👀</title>
 
-  <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-9909V32B75"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -15,98 +14,181 @@
   </script>
 
   <style>
+    * { box-sizing: border-box; }
+
     body {
       margin: 0;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: linear-gradient(135deg, #0a0a0a, #111);
-      color: white;
+      background: linear-gradient(135deg, #090909, #131313 55%, #1a1020);
+      color: #fff;
       padding: 20px;
     }
 
     .container {
-      max-width: 520px;
+      max-width: 560px;
       margin: 0 auto;
     }
 
     .card {
-      background: rgba(255,255,255,0.05);
+      background: rgba(255,255,255,0.06);
       backdrop-filter: blur(12px);
-      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 22px;
       padding: 18px;
-      margin-bottom: 15px;
-      border: 1px solid rgba(255,255,255,0.1);
+      margin-bottom: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
     }
 
-    h2, h3, p {
+    h1, h2, h3, p {
       margin-top: 0;
+    }
+
+    h1 {
+      font-size: 28px;
+      line-height: 1.1;
+      margin-bottom: 8px;
+    }
+
+    .subtle {
+      color: rgba(255,255,255,0.72);
+      font-size: 15px;
+      line-height: 1.45;
     }
 
     input, button {
       width: 100%;
-      padding: 14px;
-      margin-top: 10px;
-      border-radius: 14px;
       border: none;
-      background: #111;
-      color: white;
-      box-sizing: border-box;
+      border-radius: 14px;
+      padding: 15px;
       font-size: 16px;
+      margin-top: 10px;
+    }
+
+    input {
+      background: #111;
+      color: #fff;
     }
 
     button {
+      cursor: pointer;
+      color: #fff;
       font-weight: 700;
       background: linear-gradient(90deg, #ff4d6d, #c77dff);
-      cursor: pointer;
+    }
+
+    .secondary-btn {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.08);
     }
 
     .score {
-      font-size: 48px;
-      font-weight: bold;
+      font-size: 54px;
+      font-weight: 800;
+      margin: 4px 0 6px;
       background: linear-gradient(90deg, #ff4d6d, #c77dff);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
 
-    .name {
-      font-size: 22px;
-      font-weight: bold;
+    .pair-name {
+      font-size: 24px;
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 8px;
     }
 
     .label {
-      opacity: 0.75;
-      margin-bottom: 10px;
+      color: rgba(255,255,255,0.72);
+      margin-bottom: 12px;
+      font-weight: 600;
     }
 
-    .section {
-      margin-top: 15px;
-    }
-
-    .quote {
-      margin-top: 15px;
-      font-style: italic;
-      opacity: 0.95;
-    }
-
-    .small {
-      opacity: 0.75;
-      font-size: 14px;
-    }
-
-    .premium-box {
-      margin-top: 15px;
-      padding: 12px;
-      background: #111;
-      border-radius: 12px;
+    .pill-row {
+      margin-top: 10px;
     }
 
     .pill {
       display: inline-block;
       padding: 8px 12px;
       border-radius: 999px;
+      font-size: 13px;
+      margin: 0 8px 8px 0;
       background: rgba(255,255,255,0.08);
-      margin-right: 8px;
-      margin-top: 8px;
-      font-size: 14px;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .section {
+      margin-top: 16px;
+    }
+
+    .section-title {
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: rgba(255,255,255,0.85);
+    }
+
+    .summary {
+      font-size: 16px;
+      line-height: 1.5;
+    }
+
+    .quote {
+      margin-top: 14px;
+      font-style: italic;
+      color: rgba(255,255,255,0.92);
+      line-height: 1.5;
+    }
+
+    .micro-hook {
+      margin-top: 10px;
+      font-size: 13px;
+      color: rgba(255,255,255,0.62);
+    }
+
+    .premium-box {
+      margin-top: 16px;
+      padding: 14px;
+      border-radius: 16px;
+      background: #111;
+      border: 1px solid rgba(255,255,255,0.07);
+    }
+
+    .premium-box p {
+      margin-bottom: 10px;
+      line-height: 1.45;
+    }
+
+    .teaser {
+      color: rgba(255,255,255,0.78);
+    }
+
+    .locked {
+      color: #ffb3c1;
+      font-weight: 700;
+    }
+
+    .success {
+      color: #9effc7;
+      font-weight: 700;
+    }
+
+    .result-actions {
+      display: grid;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .divider {
+      height: 1px;
+      background: rgba(255,255,255,0.08);
+      margin: 14px 0;
+    }
+
+    .tiny {
+      font-size: 12px;
+      color: rgba(255,255,255,0.56);
+      line-height: 1.4;
     }
   </style>
 </head>
@@ -114,18 +196,19 @@
   <div class="container">
 
     <div class="card">
-      <h2>Birthday Compare</h2>
-      <p>Find your real compatibility</p>
+      <h1>This exposed our compatibility… 👀</h1>
+      <p class="subtle">Try this with someone, but don’t blame me if it gets awkward. Most people test an ex, a crush, or their partner first.</p>
     </div>
 
     <div class="card">
-      <input id="name1" placeholder="Name 1" />
+      <input id="name1" placeholder="Your name" />
       <input id="dob1" type="date" />
 
-      <input id="name2" placeholder="Name 2" />
+      <input id="name2" placeholder="Their name" />
       <input id="dob2" type="date" />
 
-      <button onclick="compare()">Compare</button>
+      <button onclick="compare()">Check compatibility</button>
+      <p class="tiny" style="margin-top:10px;">Tip: this gets the best reactions when you send the result to the person you tested 😅</p>
     </div>
 
     <div id="result" class="card" style="display:none;"></div>
@@ -174,67 +257,139 @@
     const specialPairs = {
       "Cancer-Pisces": {
         score: 90,
-        summary: "This is one of those rare emotional connections where both people naturally understand each other.",
-        quote: "You don’t have to explain your feelings here — they’re already felt."
+        summary: "This is one of those rare emotional connections where both people naturally understand each other. It usually feels soft, deep, and hard to fake.",
+        quote: "You don’t have to explain your feelings here — they’re already felt.",
+        premium: {
+          emotional: "Very strong emotional pull. One person tends to feel safe here, the other feels deeply understood.",
+          communication: "Usually intuitive, but silence can create overthinking if feelings are not said out loud.",
+          challenge: "This pair can get overwhelmed by emotion and avoid saying the harder thing directly.",
+          attraction: "High. It often feels comforting and magnetic at the same time.",
+          longTerm: "Strong long-term potential when both stay honest and don’t expect mind-reading."
+        }
       },
       "Pisces-Cancer": {
         score: 90,
-        summary: "A deeply intuitive bond that feels safe, emotional, and naturally aligned.",
-        quote: "This feels like comfort, connection, and something hard to replace."
+        summary: "A deeply intuitive bond that feels safe, emotional, and naturally aligned. This usually feels more serious than it looks from the outside.",
+        quote: "This feels like comfort, connection, and something hard to replace.",
+        premium: {
+          emotional: "This pairing tends to create a strong emotional cocoon around both people.",
+          communication: "Easy when both are open, messy when one retreats into mood or silence.",
+          challenge: "Avoiding conflict can become the real problem here.",
+          attraction: "Warm, intimate, and emotionally sticky.",
+          longTerm: "Very good if both create reassurance instead of assumptions."
+        }
       },
       "Scorpio-Cancer": {
         score: 92,
-        summary: "This pairing can feel intense, loyal, and emotionally powerful when both open up.",
-        quote: "This connection runs deep — not surface level."
+        summary: "This pairing can feel intense, loyal, and emotionally powerful. When it works, it feels unforgettable.",
+        quote: "This connection runs deep — not surface level.",
+        premium: {
+          emotional: "Very deep emotional intensity. Loyalty can become a major strength here.",
+          communication: "Strong when trust is present, guarded when hurt appears.",
+          challenge: "Jealousy, secrecy, or emotional defensiveness can throw this off fast.",
+          attraction: "Very high chemistry. This usually feels strong from the start.",
+          longTerm: "Excellent potential if both handle intensity maturely."
+        }
       },
       "Cancer-Scorpio": {
         score: 92,
-        summary: "This pairing can feel intense, loyal, and emotionally powerful when both open up.",
-        quote: "This connection runs deep — not surface level."
+        summary: "This pairing can feel intense, loyal, and emotionally powerful. It can become very real, very fast.",
+        quote: "This connection runs deep — not surface level.",
+        premium: {
+          emotional: "One of the strongest emotional match types when trust builds properly.",
+          communication: "Deep conversations happen naturally, but emotional walls can slow things down.",
+          challenge: "Control and protectiveness can create friction.",
+          attraction: "High magnetic pull, often hard to ignore.",
+          longTerm: "Great long-term potential when both stop testing each other emotionally."
+        }
       },
       "Leo-Aries": {
         score: 88,
-        summary: "High energy, strong attraction, and a powerful dynamic when both respect each other.",
-        quote: "Fire meets fire — intense, exciting, and never boring."
+        summary: "High energy, strong attraction, and a powerful dynamic. This usually feels exciting, bold, and hard to ignore.",
+        quote: "Fire meets fire — intense, exciting, and never boring.",
+        premium: {
+          emotional: "This is less soft and more energising. The connection feels alive.",
+          communication: "Direct, fast, and sometimes blunt.",
+          challenge: "Ego clashes or competition can become the issue.",
+          attraction: "Very high. Chemistry often shows up quickly.",
+          longTerm: "Strong if both admire rather than compete with each other."
+        }
       },
       "Aries-Leo": {
         score: 88,
-        summary: "High energy, strong attraction, and a powerful dynamic when both respect each other.",
-        quote: "Fire meets fire — intense, exciting, and never boring."
+        summary: "High energy, strong attraction, and a powerful dynamic. When this clicks, it feels electric.",
+        quote: "Fire meets fire — intense, exciting, and never boring.",
+        premium: {
+          emotional: "This match runs more on energy and confidence than soft reassurance.",
+          communication: "Fast and bold, but sometimes too reactive.",
+          challenge: "Both may want to lead.",
+          attraction: "High. There is usually a visible spark.",
+          longTerm: "Works well when respect stays higher than pride."
+        }
       },
       "Taurus-Virgo": {
         score: 85,
-        summary: "A grounded, steady pairing with strong long-term potential and natural trust.",
-        quote: "This works because both of you value consistency and loyalty."
+        summary: "A grounded, steady pairing with strong long-term potential. This usually feels dependable rather than chaotic.",
+        quote: "This works because both of you value consistency and loyalty.",
+        premium: {
+          emotional: "Steady and reliable. This grows stronger with time.",
+          communication: "Practical and calm, though feelings may need more direct expression.",
+          challenge: "Routine can become dull if neither brings freshness.",
+          attraction: "Subtle but real. This often deepens instead of exploding.",
+          longTerm: "Very strong when both keep showing up consistently."
+        }
       },
       "Virgo-Taurus": {
         score: 85,
-        summary: "A grounded, steady pairing with strong long-term potential and natural trust.",
-        quote: "This works because both of you value consistency and loyalty."
+        summary: "A grounded, steady pairing with strong long-term potential. This often feels safe and buildable.",
+        quote: "This works because both of you value consistency and loyalty.",
+        premium: {
+          emotional: "Less dramatic, more secure.",
+          communication: "Clear and useful, but emotional softness needs effort.",
+          challenge: "Overthinking and stubbornness can create small repeated tension.",
+          attraction: "Slow burn, usually stronger than it first looks.",
+          longTerm: "Very solid if both avoid becoming too rigid."
+        }
       },
       "Gemini-Libra": {
         score: 84,
-        summary: "A light, social, and naturally flowing connection with easy conversation.",
-        quote: "This match works best when the energy stays playful and open."
+        summary: "A light, social, and naturally flowing connection with easy conversation. This often feels easy right away.",
+        quote: "This match works best when the energy stays playful and open.",
+        premium: {
+          emotional: "This pair connects through vibe, banter, and mental flow.",
+          communication: "One of the easiest communication styles overall.",
+          challenge: "Depth can be dodged if both stay too surface-level.",
+          attraction: "Fun and flirt-heavy.",
+          longTerm: "Good when playfulness is matched by real substance."
+        }
       },
       "Libra-Gemini": {
         score: 84,
-        summary: "A light, social, and naturally flowing connection with easy conversation.",
-        quote: "This match works best when the energy stays playful and open."
+        summary: "A light, social, and naturally flowing connection with easy conversation. This usually starts easy and stays interesting.",
+        quote: "This match works best when the energy stays playful and open.",
+        premium: {
+          emotional: "This connection is often more mental first, emotional second.",
+          communication: "Very strong. This pair rarely runs out of things to say.",
+          challenge: "Avoidance of heavier feelings can weaken the bond over time.",
+          attraction: "Playful and naturally magnetic.",
+          longTerm: "Good if both move beyond charm into honesty."
+        }
       }
     };
 
     const fallbackSummaries = [
-      "This connection has potential, but it depends on communication and timing.",
-      "There’s attraction here, but differences may need patience and understanding.",
-      "This pairing can work well when both people meet in the middle.",
-      "This connection feels promising, but consistency will decide how strong it becomes."
+      "There’s something here, but how strong it gets depends on communication, timing, and whether both people are actually honest.",
+      "This connection has potential, but one person may feel more than the other at first.",
+      "There’s attraction here, but differences in style or emotional pace may need patience.",
+      "This can work surprisingly well, but only if both people stop guessing and start communicating.",
+      "This pairing can feel strong in the moment, but consistency decides whether it becomes something real."
     ];
 
     const fallbackQuotes = [
-      "Some connections grow stronger over time.",
-      "This works best when both people stay honest and consistent.",
+      "Be honest… this feels accurate, doesn’t it?",
+      "Some connections grow stronger the moment both people stop pretending.",
       "Potential is here — what happens next depends on effort.",
+      "This could go very right… or get messy fast.",
       "Sometimes the strongest matches still need the clearest communication."
     ];
 
@@ -249,7 +404,7 @@
         const [sm, sd] = s.start;
         const [em, ed] = s.end;
 
-        const isNormalRange =
+        const normalRange =
           sm <= em &&
           (
             (m === sm && day >= sd) ||
@@ -257,7 +412,7 @@
             (m > sm && m < em)
           );
 
-        const isWrappedRange =
+        const wrappedRange =
           sm > em &&
           (
             (m === sm && day >= sd) ||
@@ -266,10 +421,16 @@
             m < em
           );
 
-        if (isNormalRange || isWrappedRange) return s;
+        if (normalRange || wrappedRange) return s;
       }
 
       return null;
+    }
+
+    function getBirthstone(dateStr) {
+      const d = new Date(dateStr);
+      if (Number.isNaN(d.getTime())) return "";
+      return birthstones[d.getMonth() + 1] || "";
     }
 
     function label(score) {
@@ -281,19 +442,7 @@
       return "❌ Low Compatibility";
     }
 
-    function getBirthstone(dateStr) {
-      const d = new Date(dateStr);
-      if (Number.isNaN(d.getTime())) return "";
-      return birthstones[d.getMonth() + 1] || "";
-    }
-
-    function buildResult(name1, name2, sign1, sign2, d1, d2) {
-      const key = `${sign1.name}-${sign2.name}`;
-
-      if (specialPairs[key]) {
-        return specialPairs[key];
-      }
-
+    function buildFallbackResult(sign1, sign2) {
       let score = 60;
 
       if (sign1.element === sign2.element) score += 15;
@@ -306,11 +455,30 @@
 
       if (supportive) score += 10;
 
-      const summary = fallbackSummaries[Math.floor(Math.random() * fallbackSummaries.length)];
-      const quote = fallbackQuotes[Math.floor(Math.random() * fallbackQuotes.length)];
-
-      return { score, summary, quote };
+      return {
+        score,
+        summary: fallbackSummaries[Math.floor(Math.random() * fallbackSummaries.length)],
+        quote: fallbackQuotes[Math.floor(Math.random() * fallbackQuotes.length)],
+        premium: {
+          emotional: "There is emotional potential here, but one of you may need more reassurance than the other expects.",
+          communication: "This works better when feelings are said clearly instead of implied.",
+          challenge: "The main issue is usually timing, assumptions, or different emotional pace.",
+          attraction: "There is enough spark here to build on, but the strength varies by effort.",
+          longTerm: "Possible, but it depends more on consistency than instant chemistry."
+        }
+      };
     }
+
+    function escapeHtml(str) {
+      return str
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    let latestResult = null;
 
     function compare() {
       track("compare_clicked");
@@ -333,33 +501,62 @@
         return;
       }
 
-      const result = buildResult(n1, n2, s1, s2, d1, d2);
-      const stone1 = getBirthstone(d1);
-      const stone2 = getBirthstone(d2);
+      const key = `${s1.name}-${s2.name}`;
+      const pairResult = specialPairs[key] || buildFallbackResult(s1, s2);
 
-      document.getElementById("result").style.display = "block";
-      document.getElementById("result").innerHTML = `
-        <div class="name">${escapeHtml(n1)} ❤️ ${escapeHtml(n2)}</div>
-        <div class="score">${result.score}%</div>
-        <div class="label">${label(result.score)}</div>
+      latestResult = {
+        name1: n1,
+        name2: n2,
+        sign1: s1,
+        sign2: s2,
+        stone1: getBirthstone(d1),
+        stone2: getBirthstone(d2),
+        score: pairResult.score,
+        summary: pairResult.summary,
+        quote: pairResult.quote,
+        premium: pairResult.premium
+      };
 
-        <div class="section"><strong>${s1.name}</strong> + <strong>${s2.name}</strong></div>
+      renderResult();
+    }
+
+    function renderResult() {
+      if (!latestResult) return;
+
+      const r = latestResult;
+      const resultEl = document.getElementById("result");
+      resultEl.style.display = "block";
+
+      resultEl.innerHTML = `
+        <div class="pair-name">${escapeHtml(r.name1)} ❤️ ${escapeHtml(r.name2)}</div>
+        <div class="score">${r.score}%</div>
+        <div class="label">${label(r.score)}</div>
 
         <div class="section">
-          <span class="pill">${s1.element}</span>
-          <span class="pill">${s2.element}</span>
+          <div class="section-title">Match</div>
+          <div><strong>${r.sign1.name}</strong> + <strong>${r.sign2.name}</strong></div>
+          <div class="pill-row">
+            <span class="pill">${r.sign1.element}</span>
+            <span class="pill">${r.sign2.element}</span>
+            <span class="pill">${r.stone1}</span>
+            <span class="pill">${r.stone2}</span>
+          </div>
         </div>
 
-        <div class="section small">${stone1} • ${stone2}</div>
+        <div class="section">
+          <div class="section-title">What this feels like</div>
+          <div class="summary"><b>${r.summary}</b></div>
+        </div>
 
-        <div class="section"><b>${result.summary}</b></div>
+        <div class="quote">"${r.quote}"</div>
 
-        <div class="quote">"${result.quote}"</div>
+        <div class="micro-hook">Be honest… this feels accurate, doesn’t it?</div>
+        <div class="micro-hook">Most people send this to the person they tested 👀</div>
 
-        <div style="margin-top:15px;">
-          <button onclick="shareNative()">📤 Share</button>
-          <button onclick="shareWhatsApp()">🟢 WhatsApp</button>
-          <button onclick="copyResult()">📋 Copy</button>
+        <div class="result-actions">
+          <button onclick="shareNative()">📤 Share result</button>
+          <button onclick="shareWhatsApp()">🟢 Send via WhatsApp</button>
+          <button class="secondary-btn" onclick="copyResult()">📋 Copy result</button>
         </div>
 
         <div id="premiumBox"></div>
@@ -369,7 +566,19 @@
     }
 
     function getShareText() {
-      return document.getElementById("result").innerText + "\n\nTry yours 👀\n" + window.location.href;
+      if (!latestResult) return window.location.href;
+
+      return `${latestResult.name1} ❤️ ${latestResult.name2}
+
+${latestResult.score}% compatibility
+${label(latestResult.score)}
+
+${latestResult.summary}
+
+"${latestResult.quote}"
+
+Try yours 👀
+${window.location.href}`;
     }
 
     function incrementShareCount(source) {
@@ -392,7 +601,7 @@
             url: window.location.href
           });
           incrementShareCount("native");
-        } catch (err) {
+        } catch (e) {
           track("share_native_cancelled");
         }
       } else {
@@ -402,7 +611,6 @@
 
     function shareWhatsApp() {
       track("share_whatsapp_clicked");
-
       const text = encodeURIComponent(getShareText());
       window.open(`https://wa.me/?text=${text}`, "_blank");
       incrementShareCount("whatsapp");
@@ -411,20 +619,18 @@
     async function copyResult() {
       track("copy_result_clicked");
 
-      const text = getShareText();
-
       try {
-        await navigator.clipboard.writeText(text);
-        alert("Copied 🔥");
+        await navigator.clipboard.writeText(getShareText());
+        alert("Copied — paste it anywhere 🔥");
         incrementShareCount("copy");
-      } catch (err) {
+      } catch (e) {
         alert("Copy failed on this device.");
       }
     }
 
     function renderPremium() {
       const box = document.getElementById("premiumBox");
-      if (!box) return;
+      if (!box || !latestResult) return;
 
       if (shareCount >= 5) {
         if (!localStorage.getItem("premiumTracked")) {
@@ -434,24 +640,54 @@
 
         box.innerHTML = `
           <div class="premium-box">
-            ✅ <b>Full Compatibility Insight</b>
+            <div class="success">✅ Full compatibility insight unlocked</div>
 
-            <p>❤️ Emotional: Strong connection with depth</p>
-            <p>🧠 Communication: Needs balance and patience</p>
-            <p>⚠️ Challenges: Emotional timing and reassurance</p>
-            <p>🔥 Attraction: High chemistry potential</p>
-            <p>⏳ Long-term: Good potential when both stay consistent</p>
+            <div class="section">
+              <div class="section-title">❤️ Emotional</div>
+              <p>${latestResult.premium.emotional}</p>
+            </div>
+
+            <div class="section">
+              <div class="section-title">🧠 Communication</div>
+              <p>${latestResult.premium.communication}</p>
+            </div>
+
+            <div class="section">
+              <div class="section-title">⚠️ Main challenge</div>
+              <p>${latestResult.premium.challenge}</p>
+            </div>
+
+            <div class="section">
+              <div class="section-title">🔥 Attraction</div>
+              <p>${latestResult.premium.attraction}</p>
+            </div>
+
+            <div class="section">
+              <div class="section-title">⏳ Long-term</div>
+              <p>${latestResult.premium.longTerm}</p>
+            </div>
           </div>
         `;
       } else {
         box.innerHTML = `
           <div class="premium-box">
-            🔒 <b>Unlock Full Insight</b>
+            <div class="locked">⚠️ There’s something you’re not seeing...</div>
 
-            <p>Share with friends (${shareCount}/5)</p>
+            <div class="section teaser">
+              <p>❤️ Emotional: Strong… but unbalanced</p>
+              <p>🧠 Communication: Looks fine on the surface</p>
+              <p>The real issue is hidden below 👇</p>
+            </div>
 
-            <button onclick="shareWhatsApp()">Share to unlock</button>
-            <button onclick="fakeUnlock()">Unlock for £0.99</button>
+            <div class="divider"></div>
+
+            <p><b>Unlock full insight</b> by sharing with 5 people or unlock instantly.</p>
+            <p class="small">Progress: ${shareCount}/5 shares</p>
+
+            <button onclick="shareWhatsApp()">Unlock by sharing (fastest)</button>
+            <button class="secondary-btn" onclick="fakeUnlock()">Unlock instantly for £0.99</button>
+
+            <div class="micro-hook">Send this to them… see what they say 😅</div>
           </div>
         `;
       }
@@ -459,16 +695,7 @@
 
     function fakeUnlock() {
       track("clicked_unlock");
-      alert("Payment coming next 🔥");
-    }
-
-    function escapeHtml(str) {
-      return str
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
+      alert("Payment hook clicked — connect this to Stripe next.");
     }
   </script>
 </body>
