@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>This exposed our compatibility 👀</title>
+  <title>This Was Accurate</title>
 
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-9909V32B75"></script>
   <script>
@@ -39,14 +39,17 @@
       box-shadow: 0 10px 30px rgba(0,0,0,0.25);
     }
 
-    h1, h2, h3, p {
-      margin-top: 0;
-    }
+    h1, h2, h3, p { margin-top: 0; }
 
     h1 {
       font-size: 28px;
       line-height: 1.1;
       margin-bottom: 8px;
+    }
+
+    h2 {
+      font-size: 20px;
+      margin-bottom: 6px;
     }
 
     .subtle {
@@ -201,19 +204,23 @@
   <div class="container">
 
     <div class="card">
-      <h1>This exposed our compatibility… 👀</h1>
-      <p class="subtle">Try this with someone, but don’t blame me if it gets awkward. Most people test an ex, a crush, or their partner first.</p>
+      <h1>This was weirdly accurate…</h1>
+      <p class="subtle">Find out what your connection really feels like.</p>
+      <p class="tiny">Most people expect a random score… but sometimes it feels a little too real.</p>
     </div>
 
     <div class="card">
+      <h2>Try it for yourself</h2>
+      <p class="subtle">Enter two names and birthdays</p>
+
       <input id="name1" placeholder="Your name" />
       <input id="dob1" type="date" />
 
       <input id="name2" placeholder="Their name" />
       <input id="dob2" type="date" />
 
-      <button onclick="compare()">Check compatibility</button>
-      <p class="tiny" style="margin-top:10px;">Tip: this gets the best reactions when you send the result to the person you tested 😅</p>
+      <button onclick="compare()">See what it says 👀</button>
+      <p class="tiny" style="margin-top:10px;">No signup. No download. Runs instantly in your browser.</p>
     </div>
 
     <div id="result" class="card" style="display:none;"></div>
@@ -302,46 +309,16 @@
     };
 
     const specialPairs = {
-      "Cancer-Pisces": {
-        score: 90,
-        quote: "You don’t have to explain your feelings here — they’re already felt."
-      },
-      "Pisces-Cancer": {
-        score: 90,
-        quote: "This feels like comfort, connection, and something hard to replace."
-      },
-      "Scorpio-Cancer": {
-        score: 92,
-        quote: "This connection runs deep — not surface level."
-      },
-      "Cancer-Scorpio": {
-        score: 92,
-        quote: "This connection runs deep — not surface level."
-      },
-      "Leo-Aries": {
-        score: 88,
-        quote: "Fire meets fire — intense, exciting, and never boring."
-      },
-      "Aries-Leo": {
-        score: 88,
-        quote: "Fire meets fire — intense, exciting, and never boring."
-      },
-      "Taurus-Virgo": {
-        score: 85,
-        quote: "This works because both of you value consistency and loyalty."
-      },
-      "Virgo-Taurus": {
-        score: 85,
-        quote: "This works because both of you value consistency and loyalty."
-      },
-      "Gemini-Libra": {
-        score: 84,
-        quote: "This match works best when the energy stays playful and open."
-      },
-      "Libra-Gemini": {
-        score: 84,
-        quote: "This match works best when the energy stays playful and open."
-      }
+      "Cancer-Pisces": { score: 90, quote: "You don’t have to explain your feelings here — they’re already felt." },
+      "Pisces-Cancer": { score: 90, quote: "This feels like comfort, connection, and something hard to replace." },
+      "Scorpio-Cancer": { score: 92, quote: "This connection runs deep — not surface level." },
+      "Cancer-Scorpio": { score: 92, quote: "This connection runs deep — not surface level." },
+      "Leo-Aries": { score: 88, quote: "Fire meets fire — intense, exciting, and never boring." },
+      "Aries-Leo": { score: 88, quote: "Fire meets fire — intense, exciting, and never boring." },
+      "Taurus-Virgo": { score: 85, quote: "This works because both of you value consistency and loyalty." },
+      "Virgo-Taurus": { score: 85, quote: "This works because both of you value consistency and loyalty." },
+      "Gemini-Libra": { score: 84, quote: "This match works best when the energy stays playful and open." },
+      "Libra-Gemini": { score: 84, quote: "This match works best when the energy stays playful and open." }
     };
 
     function getSign(dateStr) {
@@ -385,39 +362,31 @@
     }
 
     function label(score) {
-      if (score >= 90) return "🔥 Rare Match";
-      if (score >= 80) return "💖 Strong Match";
-      if (score >= 70) return "✨ Good Potential";
-      if (score >= 60) return "⚖️ Mixed Match";
-      if (score >= 50) return "⚠️ Challenging";
-      return "❌ Low Compatibility";
+      if (score >= 90) return "🔥 Rare connection";
+      if (score >= 80) return "💖 Strong pull";
+      if (score >= 70) return "✨ Something real";
+      if (score >= 60) return "⚖️ Mixed energy";
+      if (score >= 50) return "⚠️ Unbalanced";
+      return "❌ Hard to align";
     }
 
     function getSummary(score, s1, s2, n1, n2) {
-      const name1 = n1 || "One of you";
-      const name2 = n2 || "the other";
-
       if (score >= 90) {
-        return `${name1} and ${name2} have a rare kind of connection — it feels natural, intense, and hard to ignore. But even strong matches like this can struggle if one of you pulls away emotionally.`;
+        return `${n1} and ${n2} have a rare kind of connection — it feels natural, intense, and hard to ignore. But even strong matches like this can struggle if one of you pulls away emotionally.`;
       }
-
       if (score >= 80) {
-        return `There’s a strong pull between ${name1} and ${name2}. One of you seems more emotionally invested, while the other keeps things more controlled — that balance is what defines this connection.`;
+        return `There’s a strong pull between ${n1} and ${n2}. One of you seems more emotionally invested, while the other keeps things more controlled — that balance is what defines this connection.`;
       }
-
       if (score >= 70) {
-        return `${name1} and ${name2} connect easily, but this isn’t effortless. There are moments where one of you understands deeply, while the other hesitates or overthinks.`;
+        return `${n1} and ${n2} connect easily, but this isn’t effortless. There are moments where one of you understands deeply, while the other hesitates or overthinks.`;
       }
-
       if (score >= 60) {
-        return `This connection between ${name1} and ${name2} feels mixed — part of it works naturally, but part of it feels slightly off. One of you may feel more than they admit.`;
+        return `This connection between ${n1} and ${n2} feels mixed — part of it works naturally, but part of it feels slightly off. One of you may feel more than they admit.`;
       }
-
       if (score >= 50) {
-        return `There’s something between ${name1} and ${name2}, but it doesn’t fully align. One of you may want clarity, while the other avoids defining things.`;
+        return `There’s something between ${n1} and ${n2}, but it doesn’t fully align. One of you may want clarity, while the other avoids defining things.`;
       }
-
-      return `${name1} and ${name2} have very different energies. There may be attraction, but long-term this would feel difficult to maintain without real effort.`;
+      return `${n1} and ${n2} have very different energies. There may be attraction, but long-term this would feel difficult to maintain without real effort.`;
     }
 
     function getSignInsight(s1, s2, n1, n2) {
@@ -516,7 +485,7 @@
     }
 
     function escapeHtml(str) {
-      return str
+      return String(str)
         .replaceAll("&", "&amp;")
         .replaceAll("<", "&lt;")
         .replaceAll(">", "&gt;")
@@ -534,9 +503,26 @@
       sessionStorage.removeItem("premiumTracked");
     }
 
+    function calculateScore(s1, s2) {
+      const key = `${s1.name}-${s2.name}`;
+      if (specialPairs[key]?.score) return specialPairs[key].score;
+
+      let val = 60;
+      if (s1.element === s2.element) val += 15;
+
+      const supportive =
+        (s1.element === "Water" && s2.element === "Earth") ||
+        (s1.element === "Earth" && s2.element === "Water") ||
+        (s1.element === "Fire" && s2.element === "Air") ||
+        (s1.element === "Air" && s2.element === "Fire");
+
+      if (supportive) val += 10;
+
+      return val;
+    }
+
     function compare() {
       resetCompareState();
-
       track("compare_clicked", { current_user: userId });
 
       const n1 = document.getElementById("name1").value.trim() || "Person 1";
@@ -557,20 +543,7 @@
         return;
       }
 
-      const key = `${s1.name}-${s2.name}`;
-      const score = specialPairs[key]?.score ?? (() => {
-        let val = 60;
-        if (s1.element === s2.element) val += 15;
-
-        const supportive =
-          (s1.element === "Water" && s2.element === "Earth") ||
-          (s1.element === "Earth" && s2.element === "Water") ||
-          (s1.element === "Fire" && s2.element === "Air") ||
-          (s1.element === "Air" && s2.element === "Fire");
-
-        if (supportive) val += 10;
-        return val;
-      })();
+      const score = calculateScore(s1, s2);
 
       latestResult = {
         name1: n1,
@@ -602,27 +575,27 @@
         <div class="label">${label(r.score)}</div>
 
         <div class="section">
-          <div class="section-title">Match</div>
-          <div><strong>${r.sign1.name}</strong> + <strong>${r.sign2.name}</strong></div>
-          <div class="pill-row">
-            <span class="pill">${r.sign1.element}</span>
-            <span class="pill">${r.sign2.element}</span>
-            <span class="pill">${r.stone1}</span>
-            <span class="pill">${r.stone2}</span>
-          </div>
-        </div>
-
-        <div class="section">
           <div class="section-title">What this feels like</div>
-          <div class="summary"><b>${r.summary}</b></div>
+          <div class="summary"><b>${escapeHtml(r.summary)}</b></div>
         </div>
 
         <div class="section">
           <div class="section-title">Energy dynamic</div>
-          <div class="summary">${r.signInsight}</div>
+          <div class="summary">${escapeHtml(r.signInsight)}</div>
         </div>
 
-        <div class="quote">"${r.quote}"</div>
+        <div class="section">
+          <div class="section-title">Match</div>
+          <div><strong>${escapeHtml(r.sign1.name)}</strong> + <strong>${escapeHtml(r.sign2.name)}</strong></div>
+          <div class="pill-row">
+            <span class="pill">${escapeHtml(r.sign1.element)}</span>
+            <span class="pill">${escapeHtml(r.sign2.element)}</span>
+            <span class="pill">${escapeHtml(r.stone1)}</span>
+            <span class="pill">${escapeHtml(r.stone2)}</span>
+          </div>
+        </div>
+
+        <div class="quote">"${escapeHtml(r.quote)}"</div>
 
         <div class="micro-hook">Be honest… this feels accurate, doesn’t it?</div>
         <div class="micro-hook">Most people send this to the person they tested 👀</div>
@@ -648,8 +621,14 @@
     function getShareText(source = "direct") {
       if (!latestResult) return getShareUrl(source);
 
-      let text = `${latestResult.name1} ❤️ ${latestResult.name2}
+      let intro = "This was weirdly accurate…";
+      if (latestResult.score >= 90) intro = "This felt a bit too real…";
+      else if (latestResult.score >= 80) intro = "This actually caught me off guard…";
+      else if (latestResult.score >= 60) intro = "This was more accurate than I expected…";
 
+      let text = `${intro}
+
+${latestResult.name1} ❤️ ${latestResult.name2}
 ${latestResult.score}% compatibility
 ${label(latestResult.score)}
 
@@ -662,7 +641,7 @@ ${latestResult.signInsight}
       if (shareCount >= UNLOCK_TARGET) {
         text += `
 
-✅ Full compatibility insight unlocked
+✅ What this really means
 
 ❤️ Emotional
 ${latestResult.premium.emotional}
@@ -721,7 +700,7 @@ ${getShareUrl(source)}`;
       if (navigator.share) {
         try {
           await navigator.share({
-            title: "Compatibility Result",
+            title: "This Was Accurate",
             text,
             url
           });
@@ -791,28 +770,28 @@ ${getShareUrl(source)}`;
             <div class="success">✅ What this really means:</div>
 
             <div class="section">
-              <div class="section-title">❤️ Emotional</div>
-              <p>${latestResult.premium.emotional}</p>
+              <div class="section-title">❤️ Emotional connection</div>
+              <p>${escapeHtml(latestResult.premium.emotional)}</p>
             </div>
 
             <div class="section">
-              <div class="section-title">🧠 Communication</div>
-              <p>${latestResult.premium.communication}</p>
+              <div class="section-title">🧠 Communication style</div>
+              <p>${escapeHtml(latestResult.premium.communication)}</p>
             </div>
 
             <div class="section">
               <div class="section-title">⚠️ Main challenge</div>
-              <p>${latestResult.premium.challenge}</p>
+              <p>${escapeHtml(latestResult.premium.challenge)}</p>
             </div>
 
             <div class="section">
               <div class="section-title">🔥 Attraction</div>
-              <p>${latestResult.premium.attraction}</p>
+              <p>${escapeHtml(latestResult.premium.attraction)}</p>
             </div>
 
             <div class="section">
-              <div class="section-title">⏳ Long-term</div>
-              <p>${latestResult.premium.longTerm}</p>
+              <div class="section-title">⏳ Long-term potential</div>
+              <p>${escapeHtml(latestResult.premium.longTerm)}</p>
             </div>
           </div>
         `;
@@ -821,12 +800,12 @@ ${getShareUrl(source)}`;
 
         box.innerHTML = `
           <div class="premium-box">
-            <div class="locked">${teaser.title}</div>
+            <div class="locked">${escapeHtml(teaser.title)}</div>
 
             <div class="section teaser">
-              <p>${teaser.emotional}</p>
-              <p>${teaser.communication}</p>
-              <p>${teaser.ending}</p>
+              <p>${escapeHtml(teaser.emotional)}</p>
+              <p>${escapeHtml(teaser.communication)}</p>
+              <p>${escapeHtml(teaser.ending)}</p>
             </div>
 
             <div class="divider"></div>
@@ -834,8 +813,8 @@ ${getShareUrl(source)}`;
             <p><b>Send this to 2 people to unlock the full truth</b></p>
             <p class="small">Progress: ${shareCount}/${UNLOCK_TARGET} tracked shares</p>
 
-            <button onclick="shareWhatsApp()">Unlock by sharing (fastest)</button>
-            <button class="secondary-btn" onclick="fakeUnlock()">Unlock instantly for £0.99</button>
+            <button onclick="shareWhatsApp()">Unlock free by sharing</button>
+            <button class="secondary-btn" onclick="fakeUnlock()">Unlock instantly (£0.99)</button>
 
             <div class="micro-hook">WhatsApp, Facebook and Share count. Copy tracks visits only 😅</div>
           </div>
